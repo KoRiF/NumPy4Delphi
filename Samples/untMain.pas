@@ -879,8 +879,9 @@ begin
     vNumpy := TNumPy.Init(True);
 
     jpg := TJpegImage.Create;
-    jpg.LoadFromFile('nn.jpg');
+    jpg.LoadFromFile('..\Images\nn.jpg');
     img1.Picture.Assign(jpg);
 end;
-
+begin
+  Python.Utils.g_PythonPath := 'c:\ProgramData\Anaconda3\';
 end.
