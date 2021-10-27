@@ -241,6 +241,7 @@ type
  var
    g_MyPyEngine : TPythonEngine;
    g_PyInterface: TPythonInterface;
+   g_PythonPath: string = '';
 
 implementation
         uses
@@ -256,6 +257,7 @@ begin
       g_MyPyEngine := TPythonEngine.Create(nil);
       g_MyPyEngine.IO := PyGuiIO;
 
+      g_MyPyEngine.SetPythonHome(g_PythonPath);
       g_MyPyEngine.LoadDll;
     end;
 
