@@ -240,6 +240,7 @@ type
 
  var
    g_MyPyEngine : TPythonEngine;
+   g_PyInterface: TPythonInterface;
 
 implementation
         uses
@@ -258,6 +259,10 @@ begin
       g_MyPyEngine.LoadDll;
     end;
 
+    if (g_PyInterface = nil) then
+    begin
+      g_PyInterface := TPythonInterface.Create(nil);
+    end;
 end;
 
 constructor TPythonObject.Create;
@@ -856,14 +861,17 @@ begin
 end;
 
 constructor TPyString.Create(s: string);
+const
+  ORIGIN = {$IF ZEROBASEDSTRINGS} 0 {$ELSE} 1 {$ENDIF};
 begin
      inherited create;
-     FHandle := g_MyPyEngine.PyUnicode_FromWideString(s)
+
+     FHandle := g_MyPyEngine.PyUnicode_FromString(@s[ORIGIN]);
 end;
 
 function TPyString.IsStringType(value: TPythonObject): Boolean;
 begin
-    Result :=  g_MyPyEngine.PyString_Check(value.FHandle);
+    Result :=  g_MyPyEngine.PyObject_TypeCheck(value.FHandle, g_PyInterface.PyUnicode_Type);
 end;
 
 { TPyAnsiString }
@@ -885,12 +893,12 @@ end;
 constructor TPyAnsiString.Create(s: AnsiString);
 begin
     inherited create;
-    FHandle := g_MyPyEngine.PyString_FromStringAndSize(PAnsiChar(s), Length(s));
+    FHandle := g_MyPyEngine.PyUnicode_FromStringAndSize(PAnsiChar(s), Length(s));
 end;
 
 function TPyAnsiString.IsStringType(value: TPythonObject): Boolean;
 begin
-    Result :=  g_MyPyEngine.PyString_Check(value.FHandle);
+    Result :=  g_MyPyEngine.PyObject_TypeCheck(value.FHandle, g_PyInterface.PyUnicode_Type);
 end;
 
 { TPyLong }
@@ -1021,13 +1029,13 @@ end;
 constructor TPyInt.Create(value: Cardinal);
 begin
     inherited create;
-    FHandle := g_MyPyEngine.PyInt_FromLong(value);
+    FHandle := g_MyPyEngine.PyLong_FromLong(value);  //PyInt <- Delphi.Cardinal
 end;
 
 constructor TPyInt.Create(value: Integer);
 begin
      inherited create;
-     FHandle := g_MyPyEngine.PyInt_FromLong(value);
+     FHandle := g_MyPyEngine.PyLong_FromLong(value);
 end;
 
 constructor TPyInt.Create(value: Int64);
@@ -1074,7 +1082,7 @@ function TPyInt.AsInt(value: TPythonObject): TPyInt;
 var
   op : PPyObject;
 begin
-    op := g_MyPyEngine.PyNumber_Int(value.FHandle);
+    op := g_MyPyEngine.PyNumber_Long(value.FHandle);
     if not Assigned(op) then
          raise EPythonError.Create('Could not cast AsInt object');
 
@@ -1083,7 +1091,7 @@ end;
 
 function TPyInt.IsIntType(value: TPythonObject): Boolean;
 begin
-    Result := g_MyPyEngine.PyInt_Check(value.FHandle);
+    Result := g_MyPyEngine.PyObject_TypeCheck(value.FHandle, g_PyInterface.PyLong_Type);
 end;
 
 function TPyInt.ToInt16: Int16;
@@ -1093,7 +1101,7 @@ end;
 
 function TPyInt.ToInt32: Int32;
 begin
-     Result := g_MyPyEngine.PyInt_AsLong(FHandle);
+     Result := g_MyPyEngine.PyLong_AsLong(FHandle);
 end;
 
 function TPyInt.ToInt64: Int64;
