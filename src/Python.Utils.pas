@@ -863,12 +863,10 @@ begin
 end;
 
 constructor TPyString.Create(s: string);
-const
-  ORIGIN = {$IF ZEROBASEDSTRINGS} 0 {$ELSE} 1 {$ENDIF};
 begin
      inherited create;
 
-     FHandle := g_MyPyEngine.PyUnicode_FromString(@s[ORIGIN]);
+     FHandle := g_MyPyEngine.PyUnicode_FromWideChar(PChar(s), s.Length);
 end;
 
 function TPyString.IsStringType(value: TPythonObject): Boolean;
