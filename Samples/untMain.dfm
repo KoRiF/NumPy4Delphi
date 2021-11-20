@@ -5,12 +5,12 @@ object frmMain: TfrmMain
   ClientHeight = 554
   ClientWidth = 804
   Color = clBtnFace
+  CustomTitleBar.CaptionAlignment = taCenter
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -82,7 +82,6 @@ object frmMain: TfrmMain
     ScrollBars = ssVertical
     TabOrder = 2
     WordWrap = False
-    Zoom = 100
     OnChange = redtOutputChange
   end
   object pnl2: TPanel
@@ -114,6 +113,7 @@ object frmMain: TfrmMain
         19)
       ColorPaletteIndex = 18
       object srsTraining_Loss: TLineSeries
+        HoverElement = [heCurrent]
         Legend.Text = 'Training loss'
         LegendTitle = 'Training loss'
         Brush.BackColor = clDefault
@@ -125,6 +125,7 @@ object frmMain: TfrmMain
         YValues.Order = loNone
       end
       object srsValidation_loss: TLineSeries
+        HoverElement = [heCurrent]
         Legend.Text = 'Validation accuracy'
         LegendTitle = 'Validation accuracy'
         Brush.BackColor = clDefault

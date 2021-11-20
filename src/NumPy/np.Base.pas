@@ -418,7 +418,7 @@ begin
            end;
        end
        else if (Info^.Kind = tkInt64)           then  PInt64(@Result)^           :=   g_MyPyEngine.PyObjectAsVariant(pyobj.Handle)
-       else if (Info^.Kind = tkFloat)           then  PFloat(@Result)^           :=   g_MyPyEngine.PyObjectAsVariant(pyobj.Handle)
+       else if (Info^.Kind = tkFloat)           then  PDouble(@Result)^           :=   g_MyPyEngine.PyObjectAsVariant(pyobj.Handle)
        else if (Info^.Kind = tkUnicodeString)   then  PUnicodeString(@Result)^   :=   g_MyPyEngine.PyObjectAsVariant(pyobj.Handle)
        else if (Info^.Kind = tkWideString)      then  PWideString(@Result)^      :=   g_MyPyEngine.PyObjectAsVariant(pyobj.Handle)
        else if (Info^.Kind = tkAnsiString   )   then  PAnsiString(@Result)^      :=   g_MyPyEngine.PyObjectAsVariant(pyobj.Handle)
