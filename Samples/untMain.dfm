@@ -73,7 +73,7 @@ object frmMain: TfrmMain
     Height = 248
     Align = alBottom
     Color = clInfoBk
-    Font.Charset = RUSSIAN_CHARSET
+    Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
