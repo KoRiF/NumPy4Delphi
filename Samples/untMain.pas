@@ -36,7 +36,6 @@ type
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
-    editSeed: TEdit;
     procedure FormShow(Sender: TObject);
     procedure btn1Click(Sender: TObject);
     procedure redtOutputChange(Sender: TObject);
