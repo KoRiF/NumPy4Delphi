@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls,
-  System.TypInfo, System.Rtti,PythonEngine, PythonGUIInputOutput,
+  System.TypInfo, System.Rtti, PythonEngine, PythonGUIInputOutput,
   Python.Utils,
 
   Keras.Layers,
@@ -23,16 +23,20 @@ type
   TfrmMain = class(TForm)
     pnlTop: TPanel;
     pnl1: TPanel;
-    redtOutput: TRichEdit;
+    redtOutput: TMemo;
     PyIOCom: TPythonGUIInputOutput;
     btn1: TButton;
     img1: TImage;
     pnl2: TPanel;
     spl1: TSplitter;
-    spl2: TSplitter;
     cht1: TChart;
     srsTraining_Loss: TLineSeries;
     srsValidation_loss: TLineSeries;
+    ckReuse: TCheckBox;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    editSeed: TEdit;
     procedure FormShow(Sender: TObject);
     procedure btn1Click(Sender: TObject);
     procedure redtOutputChange(Sender: TObject);
@@ -47,7 +51,7 @@ type
     procedure SentimentClassification;
     procedure SentimentClassificationLSTM;
     procedure Predict(text: string);
-    procedure TextGen;
+    procedure TextGen(filemodel: string);
     function LoadTxt(fileName: string; lenSeq:Integer; step: Integer; var rawTxt: TArray<AnsiChar>; var DataX: TArray2D<Integer>; var DataY: TArray<Integer>):Integer;
     procedure TextGen_predict(model : TSequential; seqLen, Step: Integer);
     { Private declarations }
@@ -156,27 +160,11 @@ begin
     //============== Esempi ======================//
 
     // ====NumPy basic test
-    (*NumPyTest;
+    //NumPyTest;
 
-    // ====keras test
-    Test1;
-    //
-    esempio_XOR;
-    //
-    MergeExample ;
-    //
-    ImplementCallback;
-    //
-    MNIST_CNN ;
-    //
-    SentimentClassification;
-    Predict('I hate you');
-    Predict('I care about you');
-    //
-    SentimentClassificationLSTM;  *)
-    //
-    TextGen ;
     var filemodel : string      :='TextGen.h5';
+    if not TFile.Exists(filemodel) or not ckReuse.Checked then
+      TextGen(fileModel) ;
     var model     : TSequential := TSequential(TSequential.LoadModel(filemodel));
     TextGen_predict(model,40,3);
     //
@@ -724,7 +712,7 @@ end;
 
 // https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/
 // text file - http://www.gutenberg.org/ebooks/28371
-procedure TfrmMain.TextGen;
+procedure TfrmMain.TextGen(filemodel: string);
 var
   n_chars,i,t,
   n_vocab,
@@ -749,13 +737,14 @@ begin
     epochs     := 20;
     step       := 3;
 
-    n_vocab := LoadTxt('Alice.txt', seq_length, step,raw_text, dataX,dataY);
+    n_vocab := LoadTxt('alice.txt', seq_length, step,raw_text, dataX,dataY);
     n_chars    := Length(raw_text);
     n_patterns := Length(dataX);
 
     redtOutput.Lines.Add('Total Characters: '   + IntToStr(n_chars));
     redtOutput.Lines.Add('Total Vocab: '        + IntToStr(n_vocab));
     redtOutput.Lines.Add('Total Patterns: '     + IntToStr(n_patterns));
+
 
     //# reshape X to be [samples, time steps, features]
     X := TNumPy.zeros(Tnp_Shape.Create([n_patterns,seq_length,n_vocab]), vNumpy.int32_ ) ;
@@ -792,7 +781,7 @@ begin
 
     model.Fit(X,Y,@batch_size,epochs,1,[checkpoint,early_stop,logEpoch]) ;
 
-    model.Save('TextGen.h5');
+    model.Save(filemodel);
 
 end;
 
@@ -829,6 +818,7 @@ begin
               inc(n);
           end;
       end;
+
       //# pick a random seed
       start   := Random(Length(dataX)-1);
       pattern := dataX[start];
@@ -836,6 +826,7 @@ begin
       s:= '';
       for i := 0 to High(pattern) do
         s := s + int_to_char[ pattern[i] ];
+      //}
 
       redtOutput.Lines.Add('Seed: ');
       redtOutput.Lines.Add(s);
@@ -882,6 +873,11 @@ begin
     jpg.LoadFromFile('..\Images\nn.jpg');
     img1.Picture.Assign(jpg);
 end;
+
+const
+  PythonPath = 'C:\ProgramData\Miniconda3\';
 begin
-  Python.Utils.g_PythonPath := 'c:\ProgramData\Anaconda3\';
+  Assert(TDirectory.Exists(PythonPath),
+    'You must define the path to your Python installation.');
+  Python.Utils.g_PythonPath := PythonPath;
 end.
