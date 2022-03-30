@@ -1,6 +1,6 @@
-**Keras4Delphi** is a high-level neural networks API, written in Pascal(Delphi Rio 10.3) with Python Binding and capable of running on top of TensorFlow, CNTK, or Theano. Based on [Keras.NET](https://github.com/SciSharp/Keras.NET) and [Keras](https://github.com/keras-team/keras) 
+**Keras4Delphi** is a high-level neural networks API, written in Delphi's Object Pascal with Python Binding and capable of running on top of TensorFlow. Based on [Keras.NET](https://github.com/SciSharp/Keras.NET) and [Keras](https://github.com/keras-team/keras) 
 
-Use Keras if you need a deep learning library that:
+### Use Keras if you need a deep learning library that:
 
 Allows for easy and fast prototyping (through user friendliness, modularity, and extensibility).
 Supports both convolutional networks and recurrent networks, as well as combinations of the two.
@@ -11,9 +11,11 @@ Runs seamlessly on CPU and GPU.
 * [python4delphi](https://github.com/pyscripter/python4delphi) (thanks [@pyscripter](https://github.com/pyscripter) to the great work)
 * [NumPy4Delphi](https://github.com/Pigrecos/Keras4Delphi/tree/master/src/NumPy) (Partial conversion)
 
-## Prerequisite
-* Python 2.7 - 3.7, Link: https://www.python.org/downloads/
-* Install keras, numpy and one of the backend (Tensorflow/CNTK/Theano). Please see on how to configure: https://keras.io/backend/
+## Prerequisites
+* Python 3 https://www.python.org/downloads/
+* Install keras, numpy and the TensorFlow backend
+* `pip install keras numpy tensorflow`
+* Please see on how to configure: https://keras.io/backend/
 
 ## Example with XOR sample
 
