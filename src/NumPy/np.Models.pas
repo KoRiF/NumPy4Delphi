@@ -591,32 +591,32 @@ end;
 //------------------------------
 function TNDArray.equal(obj: TValue): TNDarray<Boolean>;
 begin
-    Result := TNDarray<Boolean>.Create( InvokeMethod('__eq__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray<Boolean>.Create( InvokeMethod('__eq__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 function TNDArray.not_equals(obj: TValue): TNDarray<Boolean>;
 begin
-   Result := TNDarray<Boolean>.Create( InvokeMethod('__ne__', [TNumPy.ToPython(obj)] ) );
+   Result := TNDarray<Boolean>.Create( InvokeMethod('__ne__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opLess(a: TNDarray; obj: TValue): TNDArray<Boolean>;
 begin
-     Result := TNDarray<Boolean>.Create( a.InvokeMethod('__lt__', [TNumPy.ToPython(obj)] ) );
+     Result := TNDarray<Boolean>.Create( a.InvokeMethod('__lt__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opLessEq(a: TNDarray; obj: TValue): TNDArray<Boolean>;
 begin
-    Result := TNDarray<Boolean>.Create( a.InvokeMethod('__le__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray<Boolean>.Create( a.InvokeMethod('__le__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opGreat(a: TNDarray; obj: TValue): TNDArray<Boolean>;
 begin
-    Result := TNDarray<Boolean>.Create( a.InvokeMethod('__gt__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray<Boolean>.Create( a.InvokeMethod('__gt__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opGreatEq(a: TNDarray; obj: TValue): TNDArray<Boolean>;
 begin
-    Result := TNDarray<Boolean>.Create( a.InvokeMethod('__ge__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray<Boolean>.Create( a.InvokeMethod('__ge__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 //------------------------------
@@ -651,97 +651,97 @@ end;
 //------------------------------
 class function TNDArray.opSLeft(a: TNDarray; obj: integer): TNDarray;
 begin
-    Result := TNDarray.Create( a.InvokeMethod('__lshift__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( a.InvokeMethod('__lshift__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opSRight(a: TNDarray; obj: integer): TNDarray;
 begin
-    Result := TNDarray.Create( a.InvokeMethod('__rshift__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( a.InvokeMethod('__rshift__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opOr(a: TNDarray; obj: integer): TNDarray;
 begin
-    Result := TNDarray.Create( a.InvokeMethod('__or__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( a.InvokeMethod('__or__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opXor(a: TNDarray; obj: integer): TNDarray;
 begin
-    Result := TNDarray.Create( a.InvokeMethod('__xor__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( a.InvokeMethod('__xor__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 function TNDArray.opDivMod(obj: TValue): TNDarray;
 begin
-     Result := TNDarray.Create( InvokeMethod('__divmod__', [TNumPy.ToPython(obj)] ) );
+     Result := TNDarray.Create( InvokeMethod('__divmod__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 function TNDArray.opPow(obj: TValue): TNDarray;
 begin
-    Result := TNDarray.Create( InvokeMethod('__pow__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( InvokeMethod('__pow__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opSub(a: TNDarray; obj: TValue): TNDarray;
 begin
-    Result := TNDarray.Create( a.InvokeMethod('__sub__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( a.InvokeMethod('__sub__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opSub(a, obj: TNDarray): TNDarray;
 begin
-    Result := TNDarray.Create( a.InvokeMethod('__sub__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( a.InvokeMethod('__sub__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opAdd(a: TNDarray; obj: TValue): TNDarray;
 begin
-    Result := TNDarray.Create( a.InvokeMethod('__add__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( a.InvokeMethod('__add__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opAdd(obj: TValue; a: TNDarray): TNDarray;
 begin
-    Result := TNDarray.Create( a.InvokeMethod('__add__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( a.InvokeMethod('__add__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opAdd(a, obj: TNDarray): TNDarray;
 begin
-    Result := TNDarray.Create( a.InvokeMethod('__add__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( a.InvokeMethod('__add__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opAnd(a: TNDarray; obj: integer): TNDarray;
 begin
-    Result := TNDarray.Create( a.InvokeMethod('__and__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( a.InvokeMethod('__and__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opDiv(a: TNDarray; obj: TValue): TNDarray;
 begin
-    Result := TNDarray.Create( a.InvokeMethod('__truediv__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( a.InvokeMethod('__truediv__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opDiv(a, obj: TNDarray): TNDarray;
 begin
-    Result := TNDarray.Create( a.InvokeMethod('__truediv__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( a.InvokeMethod('__truediv__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.floordiv(a: TNDarray; obj: TValue): TNDarray;
 begin
-   Result := TNDarray.Create( a.InvokeMethod('__floordiv__', [TNumPy.ToPython(obj)] ) );
+   Result := TNDarray.Create( a.InvokeMethod('__floordiv__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opMod(a: TNDarray; obj: TValue): TNDarray;
 begin
-   Result := TNDarray.Create( a.InvokeMethod('__mod__', [TNumPy.ToPython(obj)] ) );
+   Result := TNDarray.Create( a.InvokeMethod('__mod__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opMul(a, obj: TNDarray): TNDarray;
 begin
-    Result := TNDarray.Create( a.InvokeMethod('__mul__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( a.InvokeMethod('__mul__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opMul(a: TNDarray; obj: TValue): TNDarray;
 begin
-    Result := TNDarray.Create( a.InvokeMethod('__mul__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( a.InvokeMethod('__mul__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 class function TNDArray.opMul(obj: TValue; a: TNDarray): TNDarray;
 begin
-    Result := TNDarray.Create( a.InvokeMethod('__mul__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( a.InvokeMethod('__mul__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 //------------------------------
@@ -749,67 +749,67 @@ end;
 //------------------------------
 function TNDArray.opIAdd(obj: TValue): TNDarray;
 begin
-    Result := TNDarray.Create( InvokeMethod('__iadd__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( InvokeMethod('__iadd__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 function TNDArray.opISub(obj: TValue): TNDarray;
 begin
-    Result := TNDarray.Create( InvokeMethod('__isub__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( InvokeMethod('__isub__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 function TNDArray.opIMul(obj: TValue): TNDarray;
 begin
-    Result := TNDarray.Create( InvokeMethod('__imul__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( InvokeMethod('__imul__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 function TNDArray.opITrueDiv(obj: TValue): TNDarray;
 begin
-    Result := TNDarray.Create( InvokeMethod('__itruediv__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( InvokeMethod('__itruediv__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 function TNDArray.IFloorDiv(obj: TValue): TNDarray;
 begin
-   Result := TNDarray.Create( InvokeMethod('__floordiv__', [TNumPy.ToPython(obj)] ) );
+   Result := TNDarray.Create( InvokeMethod('__floordiv__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 function TNDArray.opIMod(obj: TValue): TNDarray;
 begin
-    Result := TNDarray.Create( InvokeMethod('__imod__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( InvokeMethod('__imod__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 function TNDArray.opIPow(obj: TValue): TNDarray;
 begin
-    Result := TNDarray.Create( InvokeMethod('__ipow__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( InvokeMethod('__ipow__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 function TNDArray.IopSLeft(obj: TValue): TNDarray;
 begin
-   Result := TNDarray.Create( InvokeMethod('__ilshift__', [TNumPy.ToPython(obj)] ) );
+   Result := TNDarray.Create( InvokeMethod('__ilshift__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 function TNDArray.IopSRight(obj: TValue): TNDarray;
 begin
-   Result := TNDarray.Create( InvokeMethod('__irshift__', [TNumPy.ToPython(obj)] ) );
+   Result := TNDarray.Create( InvokeMethod('__irshift__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 function TNDArray.IopAnd(obj: TValue): TNDarray;
 begin
-    Result := TNDarray.Create( InvokeMethod('__iand__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( InvokeMethod('__iand__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 function TNDArray.IopOr(obj: TValue): TNDarray;
 begin
-    Result := TNDarray.Create( InvokeMethod('__ior__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( InvokeMethod('__ior__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 function TNDArray.IopXor(obj: TValue): TNDarray;
 begin
-   Result := TNDarray.Create( InvokeMethod('__ixor__', [TNumPy.ToPython(obj)] ) );
+   Result := TNDarray.Create( InvokeMethod('__ixor__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 function TNDArray.opIDiv(obj: TValue): TNDarray;
 begin
-    Result := TNDarray.Create( InvokeMethod('__idiv__', [TNumPy.ToPython(obj)] ) );
+    Result := TNDarray.Create( InvokeMethod('__idiv__', [TDeNumPy.ToPython(obj)] ) );
 end;
 
 
@@ -860,7 +860,7 @@ begin
     end;
     tuple := TPyTuple.Create( resSlice );
 
-    TPythonObject(Self)[tuple] := TNumPy.ToPython(TPythonObject(value) )
+    TPythonObject(Self)[tuple] := TDeNumPy.ToPython(TPythonObject(value) )
 
 end;
 
@@ -870,7 +870,7 @@ var
 
   res : Integer;
 begin
-    tuple  := TNumPy.ToTuple(TValue.ArrayOfToValueArray<Integer>(index));
+    tuple  := TDeNumPy.ToTuple(TValue.ArrayOfToValueArray<Integer>(index));
     Result := TNDarray.Create( TPythonObject(Self)[tuple] );
 end;
 
@@ -878,8 +878,8 @@ procedure TNDArray.SetItem(index: TArray<Integer>; const Value: TNDarray);
 var
  tuple : TPyTuple;
 begin
-    tuple  := TNumPy.ToTuple(TValue.ArrayOfToValueArray<Integer>(index));
-    TPythonObject(Self)[tuple] := TNumPy.ToPython(value );
+    tuple  := TDeNumPy.ToTuple(TValue.ArrayOfToValueArray<Integer>(index));
+    TPythonObject(Self)[tuple] := TDeNumPy.ToPython(value );
 end;
 
 function TNDArray.Getitem(index: TArray<TNDarray>): TNDarray;
@@ -907,7 +907,7 @@ begin
 
     tuple := TPyTuple.Create(aObj);
 
-    TPythonObject(Self)[tuple] := TNumPy.ToPython(TPythonObject(value) )
+    TPythonObject(Self)[tuple] := TDeNumPy.ToPython(TPythonObject(value) )
 end;
 
 
@@ -934,7 +934,7 @@ begin
                  pyObj := TPythonObject.Create(  TNDArray(index).Handle );
           end;
          else
-            pyObj := TNumPy.ToPython(item) ;
+            pyObj := TDeNumPy.ToPython(item) ;
         end;
 
         res := res + [ pyObj ];
@@ -968,14 +968,14 @@ begin
                  pyObj := TPythonObject.Create(  TNDArray(index).Handle );
           end;
          else
-            pyObj := TNumPy.ToPython(item) ;
+            pyObj := TDeNumPy.ToPython(item) ;
         end;
 
         res := res + [ pyObj ];
     end;
     tuple := TPyTuple.Create( res );
 
-    TPythonObject(Self)[tuple] := TNumPy.ToPython(TPythonObject(value) )
+    TPythonObject(Self)[tuple] := TDeNumPy.ToPython(TPythonObject(value) )
 
 end;
 
@@ -985,7 +985,7 @@ var
   kwargs : TPyDict;
 
 begin
-    pyargs := TNumPy.ToTuple(args);
+    pyargs := TDeNumPy.ToTuple(args);
     kwargs := TPyDict.Create;
 
     InvokeMethod('itemset', pyargs, kwargs);
@@ -1045,7 +1045,7 @@ end;
 { DONE -oMax -c : aggiornare con reshape 08/02/2020 21:17:15 }
 function TNDArray.reshape(newshape: TArray<Integer>): TNDarray;
 begin
-    Result := TNumPy.reshape(Self, Tnp_Shape.Create(newshape));
+    Result := TDeNumPy.reshape(Self, Tnp_Shape.Create(newshape));
 end;
 
 procedure TNDArray.resize(new_shape: Tnp_Shape; refcheck: PBoolean);
@@ -1054,10 +1054,10 @@ var
   kwargs : TPyDict;
 
 begin
-    pyargs := TNumPy.ToTuple([TValue.FromShape(new_shape)]);
+    pyargs := TDeNumPy.ToTuple([TValue.FromShape(new_shape)]);
     kwargs := TPyDict.Create;
 
-    if (refcheck <> nil) then  kwargs['refcheck'] := TNumPy.ToPython(refcheck^);
+    if (refcheck <> nil) then  kwargs['refcheck'] := TDeNumPy.ToPython(refcheck^);
     InvokeMethod('resize', pyargs, kwargs);
 end;
 
@@ -1099,13 +1099,13 @@ var
 begin
     raise Exception.Create('TODO: this needs to be implemented with Marshal.Copy');
 
-    pyargs := TNumPy.ToTuple([]);
+    pyargs := TDeNumPy.ToTuple([]);
     kwargs := TPyDict.Create;
 
-    if (order <> nil) then  kwargs['order'] := TNumPy.ToPython(order^);
+    if (order <> nil) then  kwargs['order'] := TDeNumPy.ToPython(order^);
     py :=InvokeMethod('tobytes', pyargs, kwargs);
 
-    Result := TNumPy.ToCsharp<TArray<byte>>(py)
+    Result := TDeNumPy.ToCsharp<TArray<byte>>(py)
 end;
 
 function TNDArray.tostring(order: PChar): TArray<Byte>;
@@ -1122,11 +1122,11 @@ begin
     raise Exception.Create('Get python type "ndarray" and "matrix" and substitute them for the given .NET type');
 
 
-    pyargs := TNumPy.ToTuple([]);
+    pyargs := TDeNumPy.ToTuple([]);
     kwargs := TPyDict.Create;
 
-    if (dtype <> nil)          then  kwargs['dtype'] := TNumPy.ToPython(dtype);
-    if ( not VarIsNull(tipo) ) then  kwargs['tipo']  := TNumPy.ToPython(TValue.FromVariant(tipo));
+    if (dtype <> nil)          then  kwargs['dtype'] := TDeNumPy.ToPython(dtype);
+    if ( not VarIsNull(tipo) ) then  kwargs['tipo']  := TDeNumPy.ToPython(TValue.FromVariant(tipo));
     InvokeMethod('view', pyargs, kwargs);
 
 end;
@@ -1144,7 +1144,7 @@ end;
 
 function TNDArray.asscalar<T>: T;
 begin
-    Result := TNumPy.asscalar<T>(self);
+    Result := TDeNumPy.asscalar<T>(self);
 end;
 
 { TNDArray<T> }

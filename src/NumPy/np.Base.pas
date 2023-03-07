@@ -26,7 +26,7 @@ type
   PTNDarray      = TArray<TNDarray> ;
   PPTNDarray     = ^PTNDarray;
 
-  TNumPy = class;
+  TDeNumPy = class;
 
 
 
@@ -35,7 +35,7 @@ type
      class function GetDtype<T>(pObj:T):TDtype;
   end;
 
-  TNumPy = class
+  TDeNumPy = class
   private
     class function Getbool_: TDtype;
     class function Getbool8: TDtype;
@@ -230,82 +230,82 @@ begin
     { Get type info for the "yet unknown type" }
     Info := TypeInfo(T);
 
-    if       System.TypeInfo(T) = System.TypeInfo(boolean)  then  Result := TNumPy.Getbool8
+    if       System.TypeInfo(T) = System.TypeInfo(boolean)  then  Result := TDeNumPy.Getbool8
 
-    else if  System.TypeInfo(T) = System.TypeInfo(int8)     then  Result := TNumPy.Getint8
-    else if  System.TypeInfo(T) = System.TypeInfo(UInt8)    then  Result := TNumPy.Getuint8
-    else if  System.TypeInfo(T) = System.TypeInfo(Byte)     then  Result := TNumPy.Getuint8
+    else if  System.TypeInfo(T) = System.TypeInfo(int8)     then  Result := TDeNumPy.Getint8
+    else if  System.TypeInfo(T) = System.TypeInfo(UInt8)    then  Result := TDeNumPy.Getuint8
+    else if  System.TypeInfo(T) = System.TypeInfo(Byte)     then  Result := TDeNumPy.Getuint8
 
-    else if  System.TypeInfo(T) = System.TypeInfo(int16)    then  Result := TNumPy.Getint16
-    else if  System.TypeInfo(T) = System.TypeInfo(Word)     then  Result := TNumPy.Getuint16
-    else if  System.TypeInfo(T) = System.TypeInfo(UInt16)   then  Result := TNumPy.Getuint16
+    else if  System.TypeInfo(T) = System.TypeInfo(int16)    then  Result := TDeNumPy.Getint16
+    else if  System.TypeInfo(T) = System.TypeInfo(Word)     then  Result := TDeNumPy.Getuint16
+    else if  System.TypeInfo(T) = System.TypeInfo(UInt16)   then  Result := TDeNumPy.Getuint16
 
-    else if  System.TypeInfo(T) = System.TypeInfo(Int32)    then  Result := TNumPy.Getint32
-    else if  System.TypeInfo(T) = System.TypeInfo(Cardinal) then  Result := TNumPy.Getuint32
-    else if  System.TypeInfo(T) = System.TypeInfo(Uint32)   then  Result := TNumPy.Getuint32
+    else if  System.TypeInfo(T) = System.TypeInfo(Int32)    then  Result := TDeNumPy.Getint32
+    else if  System.TypeInfo(T) = System.TypeInfo(Cardinal) then  Result := TDeNumPy.Getuint32
+    else if  System.TypeInfo(T) = System.TypeInfo(Uint32)   then  Result := TDeNumPy.Getuint32
 
-    else if  System.TypeInfo(T) = System.TypeInfo(Int64)    then  Result := TNumPy.Getint64
-    else if  System.TypeInfo(T) = System.TypeInfo(uint64)   then  Result := TNumPy.Getuint64
+    else if  System.TypeInfo(T) = System.TypeInfo(Int64)    then  Result := TDeNumPy.Getint64
+    else if  System.TypeInfo(T) = System.TypeInfo(uint64)   then  Result := TDeNumPy.Getuint64
 
-    else if  System.TypeInfo(T) = System.TypeInfo(Single)   then  Result := TNumPy.Getfloat32
-    else if  System.TypeInfo(T) = System.TypeInfo(double)   then  Result := TNumPy.Getfloat64
+    else if  System.TypeInfo(T) = System.TypeInfo(Single)   then  Result := TDeNumPy.Getfloat32
+    else if  System.TypeInfo(T) = System.TypeInfo(double)   then  Result := TDeNumPy.Getfloat64
 
-    else if  System.TypeInfo(T) = System.TypeInfo(string)   then  Result := TNumPy.Getunicode_
-    else if  System.TypeInfo(T) = System.TypeInfo(char)     then  Result := TNumPy.Getunicode_
+    else if  System.TypeInfo(T) = System.TypeInfo(string)   then  Result := TDeNumPy.Getunicode_
+    else if  System.TypeInfo(T) = System.TypeInfo(char)     then  Result := TDeNumPy.Getunicode_
 
     else if (Info.Kind = tkArray) then
     begin
         rtti := TRttiContext.Create.GetType(TypeInfo(T));
 
-        if       TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<boolean>)  then  Result := TNumPy.Getbool8
+        if       TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<boolean>)  then  Result := TDeNumPy.Getbool8
                                                                                                  
-        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<int8>)     then  Result := TNumPy.Getint8
-        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<UInt8>)    then  Result := TNumPy.Getuint8
-        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<Byte>)     then  Result := TNumPy.Getuint8
+        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<int8>)     then  Result := TDeNumPy.Getint8
+        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<UInt8>)    then  Result := TDeNumPy.Getuint8
+        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<Byte>)     then  Result := TDeNumPy.Getuint8
                                                                                                  
-        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<int16>)    then  Result := TNumPy.Getint16
-        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<Word>)     then  Result := TNumPy.Getuint16
-        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<UInt16>)   then  Result := TNumPy.Getuint16
+        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<int16>)    then  Result := TDeNumPy.Getint16
+        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<Word>)     then  Result := TDeNumPy.Getuint16
+        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<UInt16>)   then  Result := TDeNumPy.Getuint16
                                                                                                  
-        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<Int32>)    then  Result := TNumPy.Getint32
-        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<Cardinal>) then  Result := TNumPy.Getuint32
-        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<Uint32>)   then  Result := TNumPy.Getuint32
+        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<Int32>)    then  Result := TDeNumPy.Getint32
+        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<Cardinal>) then  Result := TDeNumPy.Getuint32
+        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<Uint32>)   then  Result := TDeNumPy.Getuint32
                                                                                                  
-        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<Int64>)    then  Result := TNumPy.Getint64
-        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<uint64>)   then  Result := TNumPy.Getuint64
+        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<Int64>)    then  Result := TDeNumPy.Getint64
+        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<uint64>)   then  Result := TDeNumPy.Getuint64
                                                                                                  
-        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<Single>)   then  Result := TNumPy.Getfloat32
-        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<double>)   then  Result := TNumPy.Getfloat64
+        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<Single>)   then  Result := TDeNumPy.Getfloat32
+        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<double>)   then  Result := TDeNumPy.Getfloat64
                                                                                                  
-        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<string>)   then  Result := TNumPy.Getunicode_
-        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<char>)     then  Result := TNumPy.Getunicode_
+        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<string>)   then  Result := TDeNumPy.Getunicode_
+        else if  TRttiArrayType(rtti).Handle = System.TypeInfo(TArray<char>)     then  Result := TDeNumPy.Getunicode_
     end
     else if (Info.Kind = tkDynArray) then
     begin
         rtti := TRttiContext.Create.GetType(TypeInfo(T));
 
-        if       TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<boolean>)  then  Result := TNumPy.Getbool8
+        if       TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<boolean>)  then  Result := TDeNumPy.Getbool8
                                                                                                         
-        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<int8>)     then  Result := TNumPy.Getint8
-        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<UInt8>)    then  Result := TNumPy.Getuint8
-        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<Byte>)     then  Result := TNumPy.Getuint8
+        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<int8>)     then  Result := TDeNumPy.Getint8
+        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<UInt8>)    then  Result := TDeNumPy.Getuint8
+        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<Byte>)     then  Result := TDeNumPy.Getuint8
                                                                                                         
-        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<int16>)    then  Result := TNumPy.Getint16
-        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<Word>)     then  Result := TNumPy.Getuint16
-        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<UInt16>)   then  Result := TNumPy.Getuint16
+        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<int16>)    then  Result := TDeNumPy.Getint16
+        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<Word>)     then  Result := TDeNumPy.Getuint16
+        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<UInt16>)   then  Result := TDeNumPy.Getuint16
                                                                                                         
-        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<Int32>)    then  Result := TNumPy.Getint32
-        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<Cardinal>) then  Result := TNumPy.Getuint32
-        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<Uint32>)   then  Result := TNumPy.Getuint32
+        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<Int32>)    then  Result := TDeNumPy.Getint32
+        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<Cardinal>) then  Result := TDeNumPy.Getuint32
+        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<Uint32>)   then  Result := TDeNumPy.Getuint32
                                                                                                         
-        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<Int64>)    then  Result := TNumPy.Getint64
-        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<uint64>)   then  Result := TNumPy.Getuint64
+        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<Int64>)    then  Result := TDeNumPy.Getint64
+        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<uint64>)   then  Result := TDeNumPy.Getuint64
                                                                                                         
-        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<Single>)   then  Result := TNumPy.Getfloat32
-        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<double>)   then  Result := TNumPy.Getfloat64
+        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<Single>)   then  Result := TDeNumPy.Getfloat32
+        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<double>)   then  Result := TDeNumPy.Getfloat64
                                                                                                         
-        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<string>)   then  Result := TNumPy.Getunicode_
-        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<char>)     then  Result := TNumPy.Getunicode_
+        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<string>)   then  Result := TDeNumPy.Getunicode_
+        else if  TRttiDynamicArrayType(rtti).Handle = System.TypeInfo(TArray<char>)     then  Result := TDeNumPy.Getunicode_
     end
 
     else
@@ -313,9 +313,9 @@ begin
 
 end;
 
-{ TNumPy }
+{ TDeNumPy }
 
-constructor TNumPy.Init(inizialize: Boolean);
+constructor TDeNumPy.Init(inizialize: Boolean);
 begin
     //Self := default(TNumPy) ;
     if  g_MyPyEngine = nil then
@@ -327,7 +327,7 @@ begin
 
 end;
 
-class function TNumPy.ToCsharp<T>(pyobj:TPythonObject): T;
+class function TDeNumPy.ToCsharp<T>(pyobj:TPythonObject): T;
 var
   Info     : PTypeInfo;
   Data     : PTypeData;
@@ -426,7 +426,7 @@ begin
     end;
 end;
 
-class function TNumPy.ToPython(value: TValue): TPythonObject;
+class function TDeNumPy.ToPython(value: TValue): TPythonObject;
 var
   Info     : PTypeInfo;
   data     : PTypeData;
@@ -527,17 +527,17 @@ begin
       raise Exception.Create('Error in ToPython conversion function');
 end;
 
-class function TNumPy.ConvertArrayToNDarray<T>(a: TArray<T>): TNDarray;
+class function TDeNumPy.ConvertArrayToNDarray<T>(a: TArray<T>): TNDarray;
 begin
     Result := npArray<T>(a);
 end;
 
-class function TNumPy.ConvertArrayToNDarray<T>(a: TArray2D<T>): TNDarray;
+class function TDeNumPy.ConvertArrayToNDarray<T>(a: TArray2D<T>): TNDarray;
 begin
     Result := npArray<T>(a).reshape( [ Length(a), Length(a[0]) ])
 end;
 
-class function TNumPy.ToTuple(): TPyTuple;
+class function TDeNumPy.ToTuple(): TPyTuple;
 var
  aArray : TArray<TPythonObject>;
 
@@ -547,7 +547,7 @@ begin
     Result := TPyTuple.Create(aArray);
 end;
 
-class function TNumPy.ToTuple(input: TArray<TValue>): TPyTuple;
+class function TDeNumPy.ToTuple(input: TArray<TValue>): TPyTuple;
 var
  aArray : TArray<TPythonObject>;
  i : Integer;
@@ -559,432 +559,432 @@ begin
     Result := TPyTuple.Create(aArray);
 end;
 
-class function TNumPy.Getbool8: TDtype;
+class function TDeNumPy.Getbool8: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('bool8'))
 end;
 
-class function TNumPy.Getbool_: TDtype;
+class function TDeNumPy.Getbool_: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('bool_'))
 end;
 
-class function TNumPy.Getbyte: TDtype;
+class function TDeNumPy.Getbyte: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('byte'))
 end;
 
-class function TNumPy.Getbytes_: TDtype;
+class function TDeNumPy.Getbytes_: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('bytes_'))
 end;
 
-class function TNumPy.Getclongfloat: TDtype;
+class function TDeNumPy.Getclongfloat: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('clongfloat'))
 end;
 
-class function TNumPy.Getcomplex128: TDtype;
+class function TDeNumPy.Getcomplex128: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('complex128'))
 end;
 
-class function TNumPy.Getcomplex192: TDtype;
+class function TDeNumPy.Getcomplex192: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('complex192'))
 end;
 
-class function TNumPy.Getcomplex256: TDtype;
+class function TDeNumPy.Getcomplex256: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('complex256'))
 end;
 
-class function TNumPy.Getcomplex64: TDtype;
+class function TDeNumPy.Getcomplex64: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('complex64'))
 end;
 
-class function TNumPy.Getcomplex_: TDtype;
+class function TDeNumPy.Getcomplex_: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('complex_'))
 end;
 
-class function TNumPy.Getcsingle: TDtype;
+class function TDeNumPy.Getcsingle: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('csingle'))
 end;
 
-class function TNumPy.Getdouble: TDtype;
+class function TDeNumPy.Getdouble: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('double'))
 end;
 
-class function TNumPy.Getfloat128: TDtype;
+class function TDeNumPy.Getfloat128: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('loat128'))
 end;
 
-class function TNumPy.Getfloat16: TDtype;
+class function TDeNumPy.Getfloat16: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('float16'))
 end;
 
-class function TNumPy.Getfloat32: TDtype;
+class function TDeNumPy.Getfloat32: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('float32'))
 end;
 
-class function TNumPy.Getfloat64: TDtype;
+class function TDeNumPy.Getfloat64: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('float64'))
 end;
 
-class function TNumPy.Getfloat96: TDtype;
+class function TDeNumPy.Getfloat96: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('float96'))
 end;
 
-class function TNumPy.Getfloat_: TDtype;
+class function TDeNumPy.Getfloat_: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('float_'))
 end;
 
-class function TNumPy.Gethalf: TDtype;
+class function TDeNumPy.Gethalf: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('half'))
 end;
 
-class function TNumPy.Getint16: TDtype;
+class function TDeNumPy.Getint16: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('int16'))
 end;
 
-class function TNumPy.Getint32: TDtype;
+class function TDeNumPy.Getint32: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('int32'))
 end;
 
-class function TNumPy.Getint64: TDtype;
+class function TDeNumPy.Getint64: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('int64'))
 end;
 
-class function TNumPy.Getint8: TDtype;
+class function TDeNumPy.Getint8: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('int8'))
 end;
 
-class function TNumPy.Getintc: TDtype;
+class function TDeNumPy.Getintc: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('intc'))
 end;
 
-class function TNumPy.Getintp: TDtype;
+class function TDeNumPy.Getintp: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('intp'))
 end;
 
-class function TNumPy.Getint_: TDtype;
+class function TDeNumPy.Getint_: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('int_'))
 end;
 
-class function TNumPy.Getlongfloat: TDtype;
+class function TDeNumPy.Getlongfloat: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('longfloat'))
 end;
 
-class function TNumPy.Getlonglong: TDtype;
+class function TDeNumPy.Getlonglong: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('longlong'))
 end;
 
-class function TNumPy.Getobject_: TDtype;
+class function TDeNumPy.Getobject_: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('object_'))
 end;
 
-class function TNumPy.Getshort: TDtype;
+class function TDeNumPy.Getshort: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('short'))
 end;
 
-class function TNumPy.Getsingle: TDtype;
+class function TDeNumPy.Getsingle: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('single'))
 end;
 
-class function TNumPy.Getubyte: TDtype;
+class function TDeNumPy.Getubyte: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('ubyte'))
 end;
 
-class function TNumPy.Getuint: TDtype;
+class function TDeNumPy.Getuint: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('uint'))
 end;
 
-class function TNumPy.Getuint16: TDtype;
+class function TDeNumPy.Getuint16: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('uint16'))
 end;
 
-class function TNumPy.Getuint32: TDtype;
+class function TDeNumPy.Getuint32: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('uint32'))
 end;
 
-class function TNumPy.Getuint64: TDtype;
+class function TDeNumPy.Getuint64: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('uint64'))
 end;
 
-class function TNumPy.Getuint8: TDtype;
+class function TDeNumPy.Getuint8: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('uint8'))
 end;
 
-class function TNumPy.Getuintc: TDtype;
+class function TDeNumPy.Getuintc: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('uintc'))
 end;
 
-class function TNumPy.Getuintp: TDtype;
+class function TDeNumPy.Getuintp: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('uintp'))
 end;
 
-class function TNumPy.Getulonglong: TDtype;
+class function TDeNumPy.Getulonglong: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('ulonglong'))
 end;
 
-class function TNumPy.Getunicode_: TDtype;
+class function TDeNumPy.Getunicode_: TDtype;
 begin
     Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('unicode_'))
 end;
 
-class function TNumPy.Getushort: TDtype;
+class function TDeNumPy.Getushort: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('ushort'))
 end;
 
-class function TNumPy.Getvoid: TDtype;
+class function TDeNumPy.Getvoid: TDtype;
 begin
    Result := ToCsharp<TDtype>( FhModuleNumPy.GetAttr('void'))
 end;
 
-procedure TNumPy.Setbool8(const Value: TDtype);
+procedure TDeNumPy.Setbool8(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('bool8', ToPython(value));
 end;
 
-procedure TNumPy.Setbool_(const Value: TDtype);
+procedure TDeNumPy.Setbool_(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('bool_', ToPython(value));
 end;
 
-procedure TNumPy.Setbyte(const Value: TDtype);
+procedure TDeNumPy.Setbyte(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('byte', ToPython(value));
 end;
 
-procedure TNumPy.Setbytes_(const Value: TDtype);
+procedure TDeNumPy.Setbytes_(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('bytes_', ToPython(value));
 end;
 
-procedure TNumPy.Setclongfloat(const Value: TDtype);
+procedure TDeNumPy.Setclongfloat(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('clongfloat', ToPython(value));
 end;
 
-procedure TNumPy.Setcomplex128(const Value: TDtype);
+procedure TDeNumPy.Setcomplex128(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('complex128', ToPython(value));
 end;
 
-procedure TNumPy.Setcomplex192(const Value: TDtype);
+procedure TDeNumPy.Setcomplex192(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('complex192', ToPython(value));
 end;
 
-procedure TNumPy.Setcomplex256(const Value: TDtype);
+procedure TDeNumPy.Setcomplex256(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('complex256', ToPython(value));
 end;
 
-procedure TNumPy.Setcomplex64(const Value: TDtype);
+procedure TDeNumPy.Setcomplex64(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('complex64', ToPython(value));
 end;
 
-procedure TNumPy.Setcomplex_(const Value: TDtype);
+procedure TDeNumPy.Setcomplex_(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('complex_', ToPython(value));
 end;
 
-procedure TNumPy.Setcsingle(const Value: TDtype);
+procedure TDeNumPy.Setcsingle(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('csingle', ToPython(value));
 end;
 
-procedure TNumPy.Setdouble(const Value: TDtype);
+procedure TDeNumPy.Setdouble(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('double', ToPython(value));
 end;
 
-procedure TNumPy.Setfloat128(const Value: TDtype);
+procedure TDeNumPy.Setfloat128(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('float128', ToPython(value));
 end;
 
-procedure TNumPy.Setfloat16(const Value: TDtype);
+procedure TDeNumPy.Setfloat16(const Value: TDtype);
 begin
    FhModuleNumPy.SetAttr('float16', ToPython(value));
 end;
 
-procedure TNumPy.Setfloat32(const Value: TDtype);
+procedure TDeNumPy.Setfloat32(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('float32', ToPython(value));
 end;
 
-procedure TNumPy.Setfloat64(const Value: TDtype);
+procedure TDeNumPy.Setfloat64(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('float64', ToPython(value));
 end;
 
-procedure TNumPy.Setfloat96(const Value: TDtype);
+procedure TDeNumPy.Setfloat96(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('float96', ToPython(value));
 end;
 
-procedure TNumPy.Setfloat_(const Value: TDtype);
+procedure TDeNumPy.Setfloat_(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('float_', ToPython(value));
 end;
 
-procedure TNumPy.Sethalf(const Value: TDtype);
+procedure TDeNumPy.Sethalf(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('half', ToPython(value));
 end;
 
-procedure TNumPy.Setint16(const Value: TDtype);
+procedure TDeNumPy.Setint16(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('int16', ToPython(value));
 end;
 
-procedure TNumPy.Setint32(const Value: TDtype);
+procedure TDeNumPy.Setint32(const Value: TDtype);
 begin
    FhModuleNumPy.SetAttr('int32', ToPython(value));
 end;
 
-procedure TNumPy.Setint64(const Value: TDtype);
+procedure TDeNumPy.Setint64(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('int64', ToPython(value));
 end;
 
-procedure TNumPy.Setint8(const Value: TDtype);
+procedure TDeNumPy.Setint8(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('int8', ToPython(value));
 end;
 
-procedure TNumPy.Setintc(const Value: TDtype);
+procedure TDeNumPy.Setintc(const Value: TDtype);
 begin
    FhModuleNumPy.SetAttr('intc', ToPython(value));
 end;
 
-procedure TNumPy.Setintp(const Value: TDtype);
+procedure TDeNumPy.Setintp(const Value: TDtype);
 begin
    FhModuleNumPy.SetAttr('intp', ToPython(value));
 end;
 
-procedure TNumPy.Setint_(const Value: TDtype);
+procedure TDeNumPy.Setint_(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('int_', ToPython(value));
 end;
 
-procedure TNumPy.Setlongfloat(const Value: TDtype);
+procedure TDeNumPy.Setlongfloat(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('longfloat', ToPython(value));
 end;
 
-procedure TNumPy.Setlonglong(const Value: TDtype);
+procedure TDeNumPy.Setlonglong(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('longlong', ToPython(value));
 end;
 
-procedure TNumPy.Setobject_(const Value: TDtype);
+procedure TDeNumPy.Setobject_(const Value: TDtype);
 begin
    FhModuleNumPy.SetAttr('object_', ToPython(value));
 end;
 
-procedure TNumPy.Setshort(const Value: TDtype);
+procedure TDeNumPy.Setshort(const Value: TDtype);
 begin
    FhModuleNumPy.SetAttr('short', ToPython(value));
 end;
 
-procedure TNumPy.Setsingle(const Value: TDtype);
+procedure TDeNumPy.Setsingle(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('single', ToPython(value));
 end;
 
-procedure TNumPy.Setubyte(const Value: TDtype);
+procedure TDeNumPy.Setubyte(const Value: TDtype);
 begin
    FhModuleNumPy.SetAttr('ubyte', ToPython(value));
 end;
 
-procedure TNumPy.Setuint(const Value: TDtype);
+procedure TDeNumPy.Setuint(const Value: TDtype);
 begin
    FhModuleNumPy.SetAttr('uint', ToPython(value));
 end;
 
-procedure TNumPy.Setuint16(const Value: TDtype);
+procedure TDeNumPy.Setuint16(const Value: TDtype);
 begin
    FhModuleNumPy.SetAttr('uint16', ToPython(value));
 end;
 
-procedure TNumPy.Setuint32(const Value: TDtype);
+procedure TDeNumPy.Setuint32(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('uint32', ToPython(value));
 end;
 
-procedure TNumPy.Setuint64(const Value: TDtype);
+procedure TDeNumPy.Setuint64(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('uint64', ToPython(value));
 end;
 
-procedure TNumPy.Setuint8(const Value: TDtype);
+procedure TDeNumPy.Setuint8(const Value: TDtype);
 begin
    FhModuleNumPy.SetAttr('uint8', ToPython(value));
 end;
 
-procedure TNumPy.Setuintc(const Value: TDtype);
+procedure TDeNumPy.Setuintc(const Value: TDtype);
 begin
    FhModuleNumPy.SetAttr('uintc', ToPython(value));
 end;
 
-procedure TNumPy.Setuintp(const Value: TDtype);
+procedure TDeNumPy.Setuintp(const Value: TDtype);
 begin
    FhModuleNumPy.SetAttr('uintp', ToPython(value));
 end;
 
-procedure TNumPy.Setulonglong(const Value: TDtype);
+procedure TDeNumPy.Setulonglong(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('ulonglong', ToPython(value));
 end;
 
-procedure TNumPy.Setunicode_(const Value: TDtype);
+procedure TDeNumPy.Setunicode_(const Value: TDtype);
 begin
    FhModuleNumPy.SetAttr('unicode_', ToPython(value));
 end;
 
-procedure TNumPy.Setushort(const Value: TDtype);
+procedure TDeNumPy.Setushort(const Value: TDtype);
 begin
    FhModuleNumPy.SetAttr('ushort', ToPython(value));
 end;
 
-procedure TNumPy.Setvoid(const Value: TDtype);
+procedure TDeNumPy.Setvoid(const Value: TDtype);
 begin
     FhModuleNumPy.SetAttr('void', ToPython(value));
 end;
@@ -994,7 +994,7 @@ end;
 /// <summary>
 /// IEEE 754 floating point representation of (positive) infinity.
 /// </summary>
-function TNumPy.inf: Double;
+function TDeNumPy.inf: Double;
 begin
     Result := FhModuleNumPy.GetAttr('inf').AsDouble;
 end;
@@ -1004,7 +1004,7 @@ end;
 ///
 /// Use np.inf because Inf, Infinity, PINF and infty are aliases for inf.For more details, see inf.
 /// </summary>
-function TNumPy.Infinity: Double;
+function TDeNumPy.Infinity: Double;
 begin
     Result := FhModuleNumPy.GetAttr('inf').AsDouble;
 end;
@@ -1014,7 +1014,7 @@ end;
 ///
 /// Use np.inf because Inf, Infinity, PINF and infty are aliases for inf.For more details, see inf.
 /// </summary>
-function TNumPy.PINF: Double;
+function TDeNumPy.PINF: Double;
 begin
    Result := FhModuleNumPy.GetAttr('inf').AsDouble;
 end;
@@ -1024,7 +1024,7 @@ end;
 ///
 /// Use np.inf because Inf, Infinity, PINF and infty are aliases for inf.For more details, see inf.
 /// </summary>
-function TNumPy.infty: Double;
+function TDeNumPy.infty: Double;
 begin
     Result := FhModuleNumPy.GetAttr('inf').AsDouble;
 end;
@@ -1032,7 +1032,7 @@ end;
 /// <summary>
 /// IEEE 754 floating point representation of (positive) infinity.
 /// </summary>
-function TNumPy.NINF: Double;
+function TDeNumPy.NINF: Double;
 begin
    Result := FhModuleNumPy.GetAttr('NINF').AsDouble;
 end;
@@ -1040,7 +1040,7 @@ end;
 /// <summary>
 /// IEEE 754 floating point representation of Not a Number(NaN).
 /// </summary>
-function TNumPy.nan: Double;
+function TDeNumPy.nan: Double;
 begin
     Result := FhModuleNumPy.GetAttr('nan').AsDouble;
 end;
@@ -1048,7 +1048,7 @@ end;
 /// <summary>
 /// IEEE 754 floating point representation of negative zero.
 /// </summary>
-function TNumPy.NZERO: Double;
+function TDeNumPy.NZERO: Double;
 begin
    Result := FhModuleNumPy.GetAttr('NZERO').AsDouble;
 end;
@@ -1056,7 +1056,7 @@ end;
 /// <summary>
 /// IEEE 754 floating point representation of negative zero.
 /// </summary>
-function TNumPy.PZERO: Double;
+function TDeNumPy.PZERO: Double;
 begin
    Result := FhModuleNumPy.GetAttr('PZERO').AsDouble;
 end;
@@ -1064,7 +1064,7 @@ end;
 /// <summary>
 /// Euler’s constant, base of natural logarithms, Napier’s constant.
 /// </summary>
-function TNumPy.e: Double;
+function TDeNumPy.e: Double;
 begin
    Result := FhModuleNumPy.GetAttr('e').AsDouble;
 end;
@@ -1073,7 +1073,7 @@ end;
 /// γ = 0.5772156649015328606065120900824024310421...
 /// https://en.wikipedia.org/wiki/Euler-Mascheroni_constant
 /// </summary>
-function TNumPy.euler_gamma: Double;
+function TDeNumPy.euler_gamma: Double;
 begin
     Result := FhModuleNumPy.GetAttr('e').AsDouble;
 end;
@@ -1081,7 +1081,7 @@ end;
 /// <summary>
 /// A convenient alias for None, useful for indexing arrays.
 /// </summary>
-function TNumPy.newaxis: Double;
+function TDeNumPy.newaxis: Double;
 begin
     Result := FhModuleNumPy.GetAttr('newaxis').AsDouble;
 end;
@@ -1089,7 +1089,7 @@ end;
 /// <summary>
 /// pi = 3.1415926535897932384626433...
 /// </summary>
-function TNumPy.pi: Double;
+function TDeNumPy.pi: Double;
 begin
    Result := FhModuleNumPy.GetAttr('e').AsDouble;
 end;

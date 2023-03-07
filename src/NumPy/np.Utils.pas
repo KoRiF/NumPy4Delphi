@@ -151,7 +151,7 @@ begin
             Continue;
         end;
 
-        res := res + [ TNumPy.ToCsharp<T>(r)  ];
+        res := res + [ TDeNumPy.ToCsharp<T>(r)  ];
     end;
 
 end;

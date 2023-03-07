@@ -24,7 +24,7 @@ interface
 
 type
 
-  TNumPyArray = class Helper for  TNumPy
+  TNumPyArray = class Helper for  TDeNumPy
     public
       //np.sorting.gen.cs
       function argmax(a: TNDarray ; axis: PInteger ; var _out : TNDarray): TNDarray;
@@ -352,14 +352,14 @@ var
    kwargs : TPyDict;
    py     : TPythonObject;
 begin
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
 
     kwargs := TPyDict.Create;
     if (axis <> nil)         then kwargs['axis']     := ToPython(axis^);
     if (_out <> nil)         then kwargs['out']      := ToPython(_out);
     py := FhModuleNumPy.InvokeMethod('argmax', pyargs, kwargs);
 
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 
 end;
 
@@ -370,7 +370,7 @@ var
    kwargs : TPyDict;
    py     : TPythonObject;
 begin
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
 
     kwargs := TPyDict.Create;
     if (axis <> nil)         then kwargs['axis']     := ToPython(TValue.FromArray<Integer>(axis));
@@ -379,7 +379,7 @@ begin
     if (not initial.IsEmpty) then kwargs['initial']  := ToPython(initial);
     py := FhModuleNumPy.InvokeMethod('amin', pyargs, kwargs);
 
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 function TNumPyArray.amax(a: TNDarray ; axis: TArray<Integer> ; var _out : TNDarray; keepdims : PBoolean; initial : TValue): TNDarray;
@@ -388,7 +388,7 @@ var
    kwargs : TPyDict;
    py     : TPythonObject;
 begin
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
 
     kwargs := TPyDict.Create;
     if (axis <> nil)         then kwargs['axis']     := ToPython(TValue.FromArray<Integer>(axis));
@@ -397,7 +397,7 @@ begin
     if (not initial.IsEmpty) then kwargs['initial']  := ToPython(initial);
     py := FhModuleNumPy.InvokeMethod('amax', pyargs, kwargs);
 
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 
 end;
 
@@ -422,13 +422,13 @@ var
    kwargs : TPyDict;
    py     : TPythonObject;
 begin
-    pyargs := TNumPy.ToTuple([a, TValue.FromShape(newshape)]);
+    pyargs := TDeNumPy.ToTuple([a, TValue.FromShape(newshape)]);
 
     kwargs := TPyDict.Create;
-    if (order<>nil) then kwargs['order'] :=  TNumPy.ToPython(order);
+    if (order<>nil) then kwargs['order'] :=  TDeNumPy.ToPython(order);
     py := FhModuleNumPy.InvokeMethod('reshape', pyargs, kwargs);
 
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Procedure TNumPyArray.copyto(dst : TNDarray  ; src : TNDarray  ; casting : string = 'same_kind'; where : TNDarray = nil);
@@ -438,7 +438,7 @@ var
 
 begin
 
-    pyargs := TNumPy.ToTuple([dst,src]);
+    pyargs := TDeNumPy.ToTuple([dst,src]);
     kwargs := TPyDict.Create;
     if (casting<>'same_kind') then kwargs['casting'] := ToPython(casting);
     if (where<>nil) then kwargs['where'] := ToPython(@where);
@@ -453,7 +453,7 @@ var
 
 begin
 
-    pyargs := TNumPy.ToTuple([dst,src]);
+    pyargs := TDeNumPy.ToTuple([dst,src]);
     kwargs := TPyDict.Create;
     if (casting<>'same_kind') then kwargs['casting'] := ToPython(casting);
     if (where<>nil) then kwargs['where'] := ToPython(@where);
@@ -468,11 +468,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (order<>nil) then kwargs['order'] := ToPython(order);
     py := FhModuleNumPy.InvokeMethod('ravel', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -483,11 +483,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([]);
+    pyargs := TDeNumPy.ToTuple([]);
     kwargs := TPyDict.Create;
     if (order<>nil) then kwargs['order'] := ToPython(order);
     py := FhModuleNumPy.InvokeMethod('flatten', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -498,10 +498,10 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a, TValue.FromArray<Integer>(source),TValue.FromArray<Integer>(destination)]);
+    pyargs := TDeNumPy.ToTuple([a, TValue.FromArray<Integer>(source),TValue.FromArray<Integer>(destination)]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('moveaxis', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -512,11 +512,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a,axis]);
+    pyargs := TDeNumPy.ToTuple([a,axis]);
     kwargs := TPyDict.Create;
     if (start<>0) then kwargs['start'] := ToPython(start);
     py := FhModuleNumPy.InvokeMethod('rollaxis', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -527,10 +527,10 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a,axis1,axis2]);
+    pyargs := TDeNumPy.ToTuple([a,axis1,axis2]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('swapaxes', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -541,11 +541,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (axes<>nil) then kwargs['axes'] := ToPython(TValue.FromArray<Integer>(axes));
     py := FhModuleNumPy.InvokeMethod('transpose', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -556,10 +556,10 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([TValue.FromArray<TNDarray>(arys)]);
+    pyargs := TDeNumPy.ToTuple([TValue.FromArray<TNDarray>(arys)]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('atleast_1d', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -570,10 +570,10 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([TValue.FromArray<TNDarray>(arys)]);
+    pyargs := TDeNumPy.ToTuple([TValue.FromArray<TNDarray>(arys)]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('atleast_2d', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -584,10 +584,10 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([TValue.FromArray<TNDarray>(arys)]);
+    pyargs := TDeNumPy.ToTuple([TValue.FromArray<TNDarray>(arys)]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('atleast_3d', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -598,10 +598,10 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([in2,in1]);
+    pyargs := TDeNumPy.ToTuple([in2,in1]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('broadcast', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -612,11 +612,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([arr, TValue.FromShape(shape)]);
+    pyargs := TDeNumPy.ToTuple([arr, TValue.FromShape(shape)]);
     kwargs := TPyDict.Create;
     if (subok<>false) then kwargs['subok'] := ToPython(subok);
     py := FhModuleNumPy.InvokeMethod('broadcast_to', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -627,11 +627,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([TValue.FromArray<TNDarray>(args)]);
+    pyargs := TDeNumPy.ToTuple([TValue.FromArray<TNDarray>(args)]);
     kwargs := TPyDict.Create;
     if (subok<>nil) then kwargs['subok'] := ToPython(subok^);
     py := FhModuleNumPy.InvokeMethod('broadcast_arrays', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TArray<TNDarray>>(py);
+    Result := TDeNumPy.ToCsharp<TArray<TNDarray>>(py);
 end;
 
 
@@ -642,10 +642,10 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a,axis]);
+    pyargs := TDeNumPy.ToTuple([a,axis]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('expand_dims', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -656,11 +656,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (axis<>nil) then kwargs['axis'] := ToPython(TValue.FromArray<Integer>(axis));
     py := FhModuleNumPy.InvokeMethod('squeeze', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -671,11 +671,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (dtype<>nil) then kwargs['dtype'] := ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('asfarray', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -686,11 +686,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (dtype<>nil) then kwargs['dtype'] := ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('asfortranarray', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -701,12 +701,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (dtype<>nil) then kwargs['dtype'] := ToPython(dtype);
     if (order<>nil) then kwargs['order'] := ToPython(order);
     py := FhModuleNumPy.InvokeMethod('asarray_chkfinite', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -717,11 +717,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a,dtype]);
+    pyargs := TDeNumPy.ToTuple([a,dtype]);
     kwargs := TPyDict.Create;
     if (requirements<>nil) then kwargs['requirements'] := ToPython(TValue.FromArray<string>(requirements));
     py := FhModuleNumPy.InvokeMethod('require', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -732,12 +732,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([TValue.FromArray<TNDarray>(arys)]);
+    pyargs := TDeNumPy.ToTuple([TValue.FromArray<TNDarray>(arys)]);
     kwargs := TPyDict.Create;
     if (axis<>0) then kwargs['axis'] := ToPython(axis);
     if (_out<>nil) then kwargs['out'] := ToPython(_out);
     py := FhModuleNumPy.InvokeMethod('concatenate', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -748,12 +748,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([TValue.FromArray<TNDarray>(arrays)]);
+    pyargs := TDeNumPy.ToTuple([TValue.FromArray<TNDarray>(arrays)]);
     kwargs := TPyDict.Create;
     if (axis<>0) then kwargs['axis'] := ToPython(axis);
     if (_out<>nil) then kwargs['out'] := ToPython(_out);
     py := FhModuleNumPy.InvokeMethod('stack', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -764,10 +764,10 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([TValue.FromArray<TNDarray>(tup)]);
+    pyargs := TDeNumPy.ToTuple([TValue.FromArray<TNDarray>(tup)]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('column_stack', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -778,10 +778,10 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([TValue.FromArray<TNDarray>(tup)]);
+    pyargs := TDeNumPy.ToTuple([TValue.FromArray<TNDarray>(tup)]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('dstack', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -792,10 +792,10 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([TValue.FromArray<TNDarray>(tup)]);
+    pyargs := TDeNumPy.ToTuple([TValue.FromArray<TNDarray>(tup)]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('hstack', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -806,10 +806,10 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([TValue.FromArray<TNDarray>(tup)]);
+    pyargs := TDeNumPy.ToTuple([TValue.FromArray<TNDarray>(tup)]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('vstack', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 (*
@@ -820,10 +820,10 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([arrays]);
+    pyargs := TDeNumPy.ToTuple([arrays]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('block', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 *)
 
@@ -835,11 +835,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ary,TValue.FromArray<Integer>(indices_or_sections)]);
+    pyargs := TDeNumPy.ToTuple([ary,TValue.FromArray<Integer>(indices_or_sections)]);
     kwargs := TPyDict.Create;
     if (axis<>0) then kwargs['axis'] := ToPython(axis);
     py := FhModuleNumPy.InvokeMethod('split', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TArray<TNDarray>>(py);
+    Result := TDeNumPy.ToCsharp<TArray<TNDarray>>(py);
 end;
 
 
@@ -850,10 +850,10 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([A,reps]);
+    pyargs := TDeNumPy.ToTuple([A,reps]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('tile', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -864,11 +864,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a,TValue.FromArray<Integer>(repeats)]);
+    pyargs := TDeNumPy.ToTuple([a,TValue.FromArray<Integer>(repeats)]);
     kwargs := TPyDict.Create;
     if (axis<>nil) then kwargs['axis'] := ToPython(axis^);
     py := FhModuleNumPy.InvokeMethod('repeat', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -879,11 +879,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([arr,TValue.FromSlice(obj)]);
+    pyargs := TDeNumPy.ToTuple([arr,TValue.FromSlice(obj)]);
     kwargs := TPyDict.Create;
     if (axis<>nil) then kwargs['axis'] := ToPython(axis^);
     py := FhModuleNumPy.InvokeMethod('delete', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -894,13 +894,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([arr]);
+    pyargs := TDeNumPy.ToTuple([arr]);
     kwargs := TPyDict.Create;
     if (obj<>0) then kwargs['obj'] := ToPython(obj);
     if (values<>nil) then kwargs['values'] := ToPython(values);
     if (axis<>nil) then kwargs['axis'] := ToPython(axis^);
     py := FhModuleNumPy.InvokeMethod('insert', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -911,11 +911,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([arr,values]);
+    pyargs := TDeNumPy.ToTuple([arr,values]);
     kwargs := TPyDict.Create;
     if (axis<>nil) then kwargs['axis'] := ToPython(axis^);
     py := FhModuleNumPy.InvokeMethod('append', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -926,11 +926,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([filt]);
+    pyargs := TDeNumPy.ToTuple([filt]);
     kwargs := TPyDict.Create;
     if (trim<>'fb') then kwargs['trim'] := ToPython(trim);
     py := FhModuleNumPy.InvokeMethod('trim_zeros', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -941,11 +941,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ar]);
+    pyargs := TDeNumPy.ToTuple([ar]);
     kwargs := TPyDict.Create;
     if (axis<>nil) then kwargs['axis'] := ToPython(axis^);
     py := FhModuleNumPy.InvokeMethod('unique', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -956,14 +956,14 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ar]);
+    pyargs := TDeNumPy.ToTuple([ar]);
     kwargs := TPyDict.Create;
     if (return_index<>False) then kwargs['return_index'] := ToPython(return_index);
     if (return_inverse<>False) then kwargs['return_inverse'] := ToPython(return_inverse);
     if (return_counts<>False) then kwargs['return_counts'] := ToPython(return_counts);
     if (axis<>nil) then kwargs['axis'] := ToPython(axis^);
     py := FhModuleNumPy.InvokeMethod('unique', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TArray<TNDarray>>(py);
+    Result := TDeNumPy.ToCsharp<TArray<TNDarray>>(py);
 end;
 
 
@@ -974,11 +974,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([m]);
+    pyargs := TDeNumPy.ToTuple([m]);
     kwargs := TPyDict.Create;
     if (axis<>nil) then kwargs['axis'] := ToPython(TValue.FromArray<Integer>(axis));
     py := FhModuleNumPy.InvokeMethod('flip', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -989,10 +989,10 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([m]);
+    pyargs := TDeNumPy.ToTuple([m]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('fliplr', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -1003,10 +1003,10 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([m]);
+    pyargs := TDeNumPy.ToTuple([m]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('flipud', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -1017,11 +1017,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a, TValue.FromArray<Integer>(shift)]);
+    pyargs := TDeNumPy.ToTuple([a, TValue.FromArray<Integer>(shift)]);
     kwargs := TPyDict.Create;
     if (axis<>nil) then kwargs['axis'] := ToPython(TValue.FromArray<Integer>(axis));
     py := FhModuleNumPy.InvokeMethod('roll', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -1032,12 +1032,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([m]);
+    pyargs := TDeNumPy.ToTuple([m]);
     kwargs := TPyDict.Create;
     if (k<>1) then kwargs['k'] := ToPython(k);
     if (axes<>nil) then kwargs['axes'] := ToPython(TValue.FromArray<Integer>(axes));
     py := FhModuleNumPy.InvokeMethod('rot90', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 (********************************//END //np.array_manipulation.gen.cs**)
@@ -1052,13 +1052,13 @@ var
    kwargs : TPyDict;
    py     : TPythonObject;
 begin
-  pyargs := TNumPy.ToTuple([x2,x1]);
+  pyargs := TDeNumPy.ToTuple([x2,x1]);
   kwargs := TPyDict.Create;
-  if (_out <> nil) then kwargs['out'] := TNumPy.ToPython(_out);
-  if (where <> nil) then kwargs['where'] := TNumPy.ToPython(where);
+  if (_out <> nil) then kwargs['out'] := TDeNumPy.ToPython(_out);
+  if (where <> nil) then kwargs['where'] := TDeNumPy.ToPython(where);
   py := FhModuleNumPy.InvokeMethod('maximum', pyargs, kwargs);
 
-  Result := TNumPy.ToCsharp<TNDarray>(py);
+  Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 function TNumPyArray.maximum(x2, x1: TNDarray; var _out : TNDarray): TNDarray;
@@ -1067,12 +1067,12 @@ var
    kwargs : TPyDict;
    py     : TPythonObject;
 begin
-  pyargs := TNumPy.ToTuple([x2,x1]);
+  pyargs := TDeNumPy.ToTuple([x2,x1]);
   kwargs := TPyDict.Create;
-  if (_out <> nil) then kwargs['out'] := TNumPy.ToPython(_out);
+  if (_out <> nil) then kwargs['out'] := TDeNumPy.ToPython(_out);
   py := FhModuleNumPy.InvokeMethod('maximum', pyargs, kwargs);
 
-  Result := TNumPy.ToCsharp<TNDarray>(py);
+  Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 function TNumPyArray.maximum(x2, x1: TNDarray): TNDarray;
@@ -1081,12 +1081,12 @@ var
    kwargs : TPyDict;
    py     : TPythonObject;
 begin
-  pyargs := TNumPy.ToTuple([x2,x1]);
+  pyargs := TDeNumPy.ToTuple([x2,x1]);
   kwargs := TPyDict.Create;
 
   py := FhModuleNumPy.InvokeMethod('maximum', pyargs, kwargs);
 
-  Result := TNumPy.ToCsharp<TNDarray>(py);
+  Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 function TNumPyArray.square(x: TNDarray; var _out : TNDarray; var where : TNDarray): TNDarray;
@@ -1095,13 +1095,13 @@ var
    kwargs : TPyDict;
    py     : TPythonObject;
 begin
-  pyargs := TNumPy.ToTuple([x]);
+  pyargs := TDeNumPy.ToTuple([x]);
   kwargs := TPyDict.Create;
-  if (_out <> nil) then kwargs['out'] := TNumPy.ToPython(_out);
-  if (where <> nil) then kwargs['where'] := TNumPy.ToPython(where);
+  if (_out <> nil) then kwargs['out'] := TDeNumPy.ToPython(_out);
+  if (where <> nil) then kwargs['where'] := TDeNumPy.ToPython(where);
   py := FhModuleNumPy.InvokeMethod('square', pyargs, kwargs);
 
-  Result := TNumPy.ToCsharp<TNDarray>(py);
+  Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 function TNumPyArray.square(x: TNDarray; var _out : TNDarray): TNDarray;
@@ -1110,13 +1110,13 @@ var
    kwargs : TPyDict;
    py     : TPythonObject;
 begin
-  pyargs := TNumPy.ToTuple([x]);
+  pyargs := TDeNumPy.ToTuple([x]);
   kwargs := TPyDict.Create;
-  if (_out <> nil) then kwargs['out'] := TNumPy.ToPython(_out);
+  if (_out <> nil) then kwargs['out'] := TDeNumPy.ToPython(_out);
 
   py := FhModuleNumPy.InvokeMethod('square', pyargs, kwargs);
 
-  Result := TNumPy.ToCsharp<TNDarray>(py);
+  Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 function TNumPyArray.square(x: TNDarray): TNDarray;
@@ -1125,12 +1125,12 @@ var
    kwargs : TPyDict;
    py     : TPythonObject;
 begin
-  pyargs := TNumPy.ToTuple([x]);
+  pyargs := TDeNumPy.ToTuple([x]);
   kwargs := TPyDict.Create;
 
   py := FhModuleNumPy.InvokeMethod('square', pyargs, kwargs);
 
-  Result := TNumPy.ToCsharp<TNDarray>(py);
+  Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.sin(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1140,12 +1140,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil)  then kwargs['out']   := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('sin', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.cos(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1155,12 +1155,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil)  then kwargs['out']   := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('cos', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.tan(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1170,12 +1170,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil)  then kwargs['out']    := ToPython(_out);
     if (where <> nil) then kwargs['where']  := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('tan', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.arcsin(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1185,12 +1185,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil)  then kwargs['out']   := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('arcsin', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.arccos(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1200,12 +1200,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil)   then kwargs['out']   := ToPython(_out);
     if (where <> nil)  then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('arccos', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.arctan(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1215,12 +1215,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil)  then kwargs['out']   := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('arctan', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.hypot(x2: TNDarray ; x1: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1230,12 +1230,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x2,x1]);
+    pyargs := TDeNumPy.ToTuple([x2,x1]);
     kwargs := TPyDict.Create;
     if (_out <> nil)   then kwargs['out']  := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('hypot', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.arctan2(x1: TNDarray ; x2: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1245,12 +1245,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x1,x2]);
+    pyargs := TDeNumPy.ToTuple([x1,x2]);
     kwargs := TPyDict.Create;
     if (_out <> nil)  then kwargs['out']   := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('arctan2', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.degrees(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1260,12 +1260,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil)  then kwargs['out']   := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('degrees', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.radians(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1275,12 +1275,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('radians', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.unwrap(p: TNDarray ; discont : Double = 3.141592653589793; axis: Integer = -1):TNDarray;
@@ -1290,12 +1290,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([p]);
+    pyargs := TDeNumPy.ToTuple([p]);
     kwargs := TPyDict.Create;
     if (discont <> 3.141592653589793) then kwargs['discont'] := ToPython(discont);
     if (axis <> -1)                   then kwargs['axis']    := ToPython(axis);
     py := FhModuleNumPy.InvokeMethod('unwrap', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.deg2rad(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1305,12 +1305,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil)  then kwargs['out']   := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('deg2rad', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.rad2deg(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1320,12 +1320,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil)  then kwargs['out']   := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('rad2deg', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.sinh(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1335,12 +1335,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil)  then kwargs['out']   := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('sinh', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.cosh(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1350,12 +1350,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil)  then kwargs['out']   := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('cosh', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.tanh(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1365,12 +1365,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil)  then kwargs['out']   := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('tanh', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.arcsinh(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1380,12 +1380,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil)  then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('arcsinh', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.arccosh(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1395,12 +1395,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('arccosh', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.arctanh(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1410,12 +1410,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('arctanh', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.around(a: TNDarray ; decimals : Integer ; var _out : TNDarray ):TNDarray;
@@ -1425,12 +1425,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (decimals <> 0) then kwargs['decimals'] := ToPython(decimals);
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     py := FhModuleNumPy.InvokeMethod('around', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.rint(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1440,12 +1440,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('rint', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.fix(x: TNDarray ; y: TNDarray = nil):TNDarray;
@@ -1455,11 +1455,11 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (y <> nil) then kwargs['y'] := ToPython(y);
     py := FhModuleNumPy.InvokeMethod('fix', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.floor(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1469,12 +1469,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('floor', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.ceil(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1484,12 +1484,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('ceil', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.trunc(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1499,12 +1499,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('trunc', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.prod(a: TNDarray ; axis: TArray<Integer> ; dtype: TDtype  ; var _out : TNDarray; keepdims : PBoolean ; initial: TValue):TNDarray;
@@ -1514,7 +1514,7 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (axis <> nil) then kwargs['axis'] := ToPython(TValue.FromArray<Integer>(axis));
     if (dtype <> nil) then kwargs['dtype'] := ToPython(dtype);
@@ -1522,7 +1522,7 @@ begin
     if (keepdims <> nil) then kwargs['keepdims'] := ToPython(keepdims^);
     if (not initial.IsEmpty) then kwargs['initial'] := ToPython(initial);
     py := FhModuleNumPy.InvokeMethod('prod', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.sum(a: TNDarray ; axis: TArray<Integer> ; dtype: TDtype ; var _out : TNDarray; keepdims : PBoolean; initial : TValue):TNDarray;
@@ -1532,7 +1532,7 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (axis <> nil) then kwargs['axis'] := ToPython(TValue.FromArray<Integer>(axis));
     if (dtype <> nil) then kwargs['dtype'] := ToPython(dtype);
@@ -1540,7 +1540,7 @@ begin
     if (keepdims <> nil) then kwargs['keepdims'] := ToPython(keepdims^);
     if (not initial.IsEmpty) then kwargs['initial'] := ToPython(initial);
     py := FhModuleNumPy.InvokeMethod('sum', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.nanprod(a: TNDarray ; axis: TArray<Integer> ; dtype: TDtype  ; var _out : TNDarray; keepdims : PBoolean = nil):TNDarray;
@@ -1550,14 +1550,14 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (axis <> nil) then kwargs['axis'] := ToPython(TValue.FromArray<Integer>(axis));
     if (dtype <> nil) then kwargs['dtype'] := ToPython(dtype);
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (keepdims <> nil) then kwargs['keepdims'] := ToPython(keepdims^);
     py := FhModuleNumPy.InvokeMethod('nanprod', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.nansum(a: TNDarray ; axis: TArray<Integer> ; dtype: TDtype  ; var _out : TNDarray; keepdims : PBoolean = nil):TNDarray;
@@ -1567,14 +1567,14 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (axis <> nil) then kwargs['axis'] := ToPython(TValue.FromArray<Integer>(axis));
     if (dtype <> nil) then kwargs['dtype'] := ToPython(dtype);
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (keepdims <> nil) then kwargs['keepdims'] := ToPython(keepdims^);
     py := FhModuleNumPy.InvokeMethod('nansum', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.cumprod(a: TNDarray ; axis: PInteger ; dtype: TDtype  ; var _out : TNDarray):TNDarray;
@@ -1584,13 +1584,13 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (axis <> nil) then kwargs['axis'] := ToPython(axis^);
     if (dtype <> nil) then kwargs['dtype'] := ToPython(dtype);
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     py := FhModuleNumPy.InvokeMethod('cumprod', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.cumsum(a: TNDarray ; axis: PInteger ; dtype: TDtype ; var _out: TNDarray):TNDarray;
@@ -1600,13 +1600,13 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (axis <> nil) then kwargs['axis'] := ToPython(axis^);
     if (dtype <> nil) then kwargs['dtype'] := ToPython(dtype);
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     py := FhModuleNumPy.InvokeMethod('cumsum', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.nancumprod(a: TNDarray ; axis: PInteger ; dtype: TDtype ; var _out: TNDarray):TNDarray;
@@ -1616,13 +1616,13 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (axis <> nil) then kwargs['axis'] := ToPython(axis^);
     if (dtype <> nil) then kwargs['dtype'] := ToPython(dtype);
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     py := FhModuleNumPy.InvokeMethod('nancumprod', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.nancumsum(a: TNDarray ; axis : PInteger ; dtype: TDtype ; var _out: TNDarray ):TNDarray;
@@ -1632,13 +1632,13 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (axis <> nil) then kwargs['axis'] := ToPython(axis^);
     if (dtype <> nil) then kwargs['dtype'] := ToPython(dtype);
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     py := FhModuleNumPy.InvokeMethod('nancumsum', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.diff(a: TNDarray ; n: Integer = 1; axis: INteger = -1; append: TNDarray = nil; prepend: TNDarray = nil):TNDarray;
@@ -1648,14 +1648,14 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (n <> 1) then kwargs['n'] := ToPython(n);
     if (axis <> -1) then kwargs['axis'] := ToPython(axis);
     if (append <> nil) then kwargs['append'] := ToPython(append);
     if (prepend <> nil) then kwargs['prepend'] := ToPython(prepend);
     py := FhModuleNumPy.InvokeMethod('diff', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.ediff1d(ary: TNDarray ; to_end: TNDarray = nil; to_begin: TNDarray = nil):TNDarray;
@@ -1665,12 +1665,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ary]);
+    pyargs := TDeNumPy.ToTuple([ary]);
     kwargs := TPyDict.Create;
     if (to_end <> nil) then kwargs['to_end'] := ToPython(to_end);
     if (to_begin <> nil) then kwargs['to_begin'] := ToPython(to_begin);
     py := FhModuleNumPy.InvokeMethod('ediff1d', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.gradient(f: TNDarray ; vararg : TNDarray = nil; edge_order : PInteger = nil; axis: TArray<Integer> = []):TNDarray;
@@ -1680,13 +1680,13 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([f]);
+    pyargs := TDeNumPy.ToTuple([f]);
     kwargs := TPyDict.Create;
     if (vararg<> nil) then kwargs['varargs'] := ToPython(vararg);
     if (edge_order <> nil) then kwargs['edge_order'] := ToPython(edge_order^);
     if (axis <> nil) then kwargs['axis'] := ToPython(TValue.FromArray<Integer>(axis));
     py := FhModuleNumPy.InvokeMethod('gradient', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.cross(a: TNDarray ; b: TNDarray ; axisa: Integer = -1; axisb: INteger = -1; axisc: Integer = -1; axis: PInteger = nil):TNDarray;
@@ -1696,14 +1696,14 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a,b]);
+    pyargs := TDeNumPy.ToTuple([a,b]);
     kwargs := TPyDict.Create;
     if (axisa <> -1) then kwargs['axisa'] := ToPython(axisa);
     if (axisb <> -1) then kwargs['axisb'] := ToPython(axisb);
     if (axisc <> -1) then kwargs['axisc'] := ToPython(axisc);
     if (axis <> nil) then kwargs['axis'] := ToPython(axis^);
     py := FhModuleNumPy.InvokeMethod('cross', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.trapz(y: TNDarray ; x: TNDarray = nil; dx: Double = 1.0; axis: Integer = -1): Double;
@@ -1713,13 +1713,13 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([y]);
+    pyargs := TDeNumPy.ToTuple([y]);
     kwargs := TPyDict.Create;
     if (x <> nil) then kwargs['x'] := ToPython(x);
     if (dx <> 1.0) then kwargs['dx'] := ToPython(dx);
     if (axis <> -1) then kwargs['axis'] := ToPython(axis);
     py := FhModuleNumPy.InvokeMethod('trapz', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<Double>(py);
+    Result := TDeNumPy.ToCsharp<Double>(py);
 end;
 
 Function TNumPyArray.exp(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1729,12 +1729,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('exp', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.expm1(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1744,12 +1744,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('expm1', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.exp2(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1759,12 +1759,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('exp2', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.log(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1774,12 +1774,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('log', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.log10(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1789,12 +1789,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('log10', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.log2(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1804,12 +1804,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('log2', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.log1p(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1819,12 +1819,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('log1p', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.logaddexp(x2: TNDarray ; x1: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1834,12 +1834,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x2,x1]);
+    pyargs := TDeNumPy.ToTuple([x2,x1]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('logaddexp', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.logaddexp2(x2: TNDarray ; x1: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1849,12 +1849,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x2,x1]);
+    pyargs := TDeNumPy.ToTuple([x2,x1]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('logaddexp2', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.sinc(x: TNDarray):TNDarray;
@@ -1864,10 +1864,10 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('sinc', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.signbit(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1877,12 +1877,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('signbit', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.copysign(x1: TNDarray ; x2: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1892,12 +1892,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x1,x2]);
+    pyargs := TDeNumPy.ToTuple([x1,x2]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('copysign', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.frexp(x: TNDarray ; out1: TNDarray; out2: TNDarray ; var _out : TNDarray; var where : TNDarray): TArray<TNDarray>;
@@ -1908,7 +1908,7 @@ var
    res    : TArray<TPythonObject>;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (out1 <> nil) then kwargs['out1'] := ToPython(out1);
     if (out2 <> nil) then kwargs['out2'] := ToPython(out2);
@@ -1919,8 +1919,8 @@ begin
     res := py.AsArrayofPyObj;
 
     SetLength(Result,2);
-    Result[0] := TNumPy.ToCsharp<TNDarray>(res[0]);
-    Result[1] := TNumPy.ToCsharp<TNDarray>(res[1]);
+    Result[0] := TDeNumPy.ToCsharp<TNDarray>(res[0]);
+    Result[1] := TDeNumPy.ToCsharp<TNDarray>(res[1]);
 end;
 
 Function TNumPyArray.ldexp(x1: TNDarray ; x2: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1930,12 +1930,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x1,x2]);
+    pyargs := TDeNumPy.ToTuple([x1,x2]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('ldexp', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.nextafter(x1: TNDarray ; x2: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1945,12 +1945,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x1,x2]);
+    pyargs := TDeNumPy.ToTuple([x1,x2]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('nextafter', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.spacing(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -1960,12 +1960,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('spacing', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.lcm(x2: TNDarray ; x1: TNDarray):TNDarray;
@@ -1975,10 +1975,10 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x2,x1]);
+    pyargs := TDeNumPy.ToTuple([x2,x1]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('lcm', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.gcd(x2: TNDarray ; x1: TNDarray):TNDarray;
@@ -1988,10 +1988,10 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x2,x1]);
+    pyargs := TDeNumPy.ToTuple([x2,x1]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('gcd', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.add(x2: TNDarray ; x1: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2001,12 +2001,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x2,x1]);
+    pyargs := TDeNumPy.ToTuple([x2,x1]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('add', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.reciprocal(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2016,12 +2016,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('reciprocal', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.positive(x: TNDarray):TNDarray;
@@ -2031,10 +2031,10 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('positive', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.negative(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2044,12 +2044,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('negative', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.multiply(x2: TNDarray ; x1: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2059,12 +2059,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x2,x1]);
+    pyargs := TDeNumPy.ToTuple([x2,x1]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('multiply', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.divide(x1: TNDarray ; x2: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2074,12 +2074,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x1,x2]);
+    pyargs := TDeNumPy.ToTuple([x1,x2]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('divide', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.power(x1: TNDarray ; x2: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2089,12 +2089,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x1,x2]);
+    pyargs := TDeNumPy.ToTuple([x1,x2]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('power', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.subtract(x2: TNDarray ; x1: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2104,12 +2104,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x2,x1]);
+    pyargs := TDeNumPy.ToTuple([x2,x1]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('subtract', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.true_divide(x1: TNDarray ; x2: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2119,12 +2119,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x1,x2]);
+    pyargs := TDeNumPy.ToTuple([x1,x2]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('true_divide', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.floor_divide(x1: TNDarray ; x2: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2134,12 +2134,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x1,x2]);
+    pyargs := TDeNumPy.ToTuple([x1,x2]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('floor_divide', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.float_power(x1: TNDarray ; x2: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2149,12 +2149,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x1,x2]);
+    pyargs := TDeNumPy.ToTuple([x1,x2]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('float_power', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.fmod(x1: TNDarray ; x2: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2164,12 +2164,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x1,x2]);
+    pyargs := TDeNumPy.ToTuple([x1,x2]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('fmod', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.&mod(x1: TNDarray ; x2: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2179,12 +2179,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x1,x2]);
+    pyargs := TDeNumPy.ToTuple([x1,x2]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('mod', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.modf(x: TNDarray ; var _out : TNDarray; var where : TNDarray): TArray<TNDarray>;
@@ -2195,7 +2195,7 @@ var
    res    : TArray<TPythonObject>;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
@@ -2204,8 +2204,8 @@ begin
     res := py.AsArrayofPyObj;
 
     SetLength(Result,2);
-    Result[0] := TNumPy.ToCsharp<TNDarray>(res[0]);
-    Result[1] := TNumPy.ToCsharp<TNDarray>(res[1]);
+    Result[0] := TDeNumPy.ToCsharp<TNDarray>(res[0]);
+    Result[1] := TDeNumPy.ToCsharp<TNDarray>(res[1]);
 
 end;
 
@@ -2216,12 +2216,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x1,x2]);
+    pyargs := TDeNumPy.ToTuple([x1,x2]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('remainder', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.divmod(x1: TNDarray ; x2: TNDarray ; var _out : TNDarray; var where : TNDarray): TArray<TNDarray>;
@@ -2232,7 +2232,7 @@ var
    res    : TArray<TPythonObject>;
 begin
 
-    pyargs := TNumPy.ToTuple([x1,x2]);
+    pyargs := TDeNumPy.ToTuple([x1,x2]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
@@ -2241,8 +2241,8 @@ begin
     res := py.AsArrayofPyObj;
 
     SetLength(Result,2);
-    Result[0] := TNumPy.ToCsharp<TNDarray>(res[0]);
-    Result[1] := TNumPy.ToCsharp<TNDarray>(res[1]);
+    Result[0] := TDeNumPy.ToCsharp<TNDarray>(res[0]);
+    Result[1] := TDeNumPy.ToCsharp<TNDarray>(res[1]);
 end;
 
 Function TNumPyArray.angle(z: TNDarray ; deg : Boolean = false):TNDarray;
@@ -2252,11 +2252,11 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([z]);
+    pyargs := TDeNumPy.ToTuple([z]);
     kwargs := TPyDict.Create;
     if (deg <> false) then kwargs['deg'] := ToPython(deg);
     py := FhModuleNumPy.InvokeMethod('angle', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.real(val: TNDarray):TNDarray;
@@ -2266,10 +2266,10 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([val]);
+    pyargs := TDeNumPy.ToTuple([val]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('real', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.imag(val: TNDarray):TNDarray;
@@ -2279,10 +2279,10 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([val]);
+    pyargs := TDeNumPy.ToTuple([val]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('imag', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.conj(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2292,12 +2292,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('conj', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.convolve(a: TNDarray ; v: TNDarray ; mode: String = 'full'):TNDarray;
@@ -2307,11 +2307,11 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a,v]);
+    pyargs := TDeNumPy.ToTuple([a,v]);
     kwargs := TPyDict.Create;
     if (mode <> 'full') then kwargs['mode'] := ToPython(mode);
     py := FhModuleNumPy.InvokeMethod('convolve', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.clip(a: TNDarray ; a_min: TNDarray; a_max: TNDarray; var _out : TNDarray ):TNDarray;
@@ -2321,11 +2321,11 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a,a_min,a_max]);
+    pyargs := TDeNumPy.ToTuple([a,a_min,a_max]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     py := FhModuleNumPy.InvokeMethod('clip', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.sqrt(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2335,12 +2335,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('sqrt', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.cbrt(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2350,12 +2350,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('cbrt', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.abs(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2370,12 +2370,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('absolute', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.fabs(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2385,12 +2385,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('fabs', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.sign(x: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2400,12 +2400,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('sign', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.heaviside(x1: TNDarray ; x2: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2415,12 +2415,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x1,x2]);
+    pyargs := TDeNumPy.ToTuple([x1,x2]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('heaviside', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.minimum(x2: TNDarray ; x1: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2430,12 +2430,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x2,x1]);
+    pyargs := TDeNumPy.ToTuple([x2,x1]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('minimum', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.fmax(x2: TNDarray ; x1: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2445,12 +2445,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x2,x1]);
+    pyargs := TDeNumPy.ToTuple([x2,x1]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('fmax', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.fmin(x2: TNDarray ; x1: TNDarray ; var _out : TNDarray; var where : TNDarray):TNDarray;
@@ -2460,12 +2460,12 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x2,x1]);
+    pyargs := TDeNumPy.ToTuple([x2,x1]);
     kwargs := TPyDict.Create;
     if (_out <> nil) then kwargs['out'] := ToPython(_out);
     if (where <> nil) then kwargs['where'] := ToPython(where);
     py := FhModuleNumPy.InvokeMethod('fmin', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.nan_to_num(x: TNDarray ; copy: Boolean = true):TNDarray;
@@ -2475,11 +2475,11 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
     if (copy <> true) then kwargs['copy'] := ToPython(copy);
     py := FhModuleNumPy.InvokeMethod('nan_to_num', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.real_if_close(a: TNDarray ; tol: double = 100):TNDarray;
@@ -2489,11 +2489,11 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
     if (tol <> 100) then kwargs['tol'] := ToPython(tol);
     py := FhModuleNumPy.InvokeMethod('real_if_close', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 (*
@@ -2504,13 +2504,13 @@ var
    py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x,xp,fp]);
+    pyargs := TDeNumPy.ToTuple([x,xp,fp]);
     kwargs := TPyDict.Create;
     if (left <> nil) then kwargs['left'] := ToPython(left);
     if (right <> nil) then kwargs['right'] := ToPython(right);
     if (period <> nil) then kwargs['period'] := ToPython(period);
     py := FhModuleNumPy.InvokeMethod('interp', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<float or complex (corresponding to fp) or ndarray>(py);
+    Result := TDeNumPy.ToCsharp<float or complex (corresponding to fp) or ndarray>(py);
 end;
 *)
 
@@ -2530,15 +2530,15 @@ var
   kwargs : TPyDict;
   py     : TPythonObject;
 begin
-    pyargs := TNumPy.ToTuple([TValue.FromShape(shape)]);
+    pyargs := TDeNumPy.ToTuple([TValue.FromShape(shape)]);
     kwargs := TPyDict.Create;
 
-    if (dtype <> nil) then kwargs['dtype'] := TNumPy.ToPython(dtype);
-    if (order <> nil) then kwargs['order'] := TNumPy.ToPython(order^);
+    if (dtype <> nil) then kwargs['dtype'] := TDeNumPy.ToPython(dtype);
+    if (order <> nil) then kwargs['order'] := TDeNumPy.ToPython(order^);
 
     py := FhModuleNumPy.InvokeMethod('empty', pyargs, kwargs);
 
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.empty_like(prototype: TNDarray ; dtype: TDtype = nil; order: PChar = nil; subok  : Boolean =   true): TNDarray;
@@ -2548,13 +2548,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([prototype]);
+    pyargs := TDeNumPy.ToTuple([prototype]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
-    if (subok<>true) then  kwargs['subok'] :=  TNumPy.ToPython(subok);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
+    if (subok<>true) then  kwargs['subok'] :=  TDeNumPy.ToPython(subok);
     py := FhModuleNumPy.InvokeMethod('empty_like', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -2565,13 +2565,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ ConvertArrayToNDarray<T>(prototype) ]);
+    pyargs := TDeNumPy.ToTuple([ ConvertArrayToNDarray<T>(prototype) ]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
-    if (subok<>true) then  kwargs['subok'] :=  TNumPy.ToPython(subok);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
+    if (subok<>true) then  kwargs['subok'] :=  TDeNumPy.ToPython(subok);
     py := FhModuleNumPy.InvokeMethod('empty_like', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 
@@ -2582,13 +2582,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ ConvertArrayToNDarray<T>(prototype) ]);
+    pyargs := TDeNumPy.ToTuple([ ConvertArrayToNDarray<T>(prototype) ]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
-    if (subok<>true) then  kwargs['subok'] :=  TNumPy.ToPython(subok);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
+    if (subok<>true) then  kwargs['subok'] :=  TDeNumPy.ToPython(subok);
     py := FhModuleNumPy.InvokeMethod('empty_like', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 
@@ -2599,14 +2599,14 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([N]);
+    pyargs := TDeNumPy.ToTuple([N]);
     kwargs := TPyDict.Create;
-    if (M<>nil) then  kwargs['M'] :=  TNumPy.ToPython(M^);
-    if (k<>0) then  kwargs['k'] :=  TNumPy.ToPython(k);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+    if (M<>nil) then  kwargs['M'] :=  TDeNumPy.ToPython(M^);
+    if (k<>0) then  kwargs['k'] :=  TDeNumPy.ToPython(k);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
     py := FhModuleNumPy.InvokeMethod('eye', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -2617,11 +2617,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([n]);
+    pyargs := TDeNumPy.ToTuple([n]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('identity', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 function TNumPyArray.ones(shape : TArray<Integer>): TNDarray;
@@ -2636,12 +2636,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([TValue.FromShape(shape)]);
+    pyargs := TDeNumPy.ToTuple([TValue.FromShape(shape)]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
     py := FhModuleNumPy.InvokeMethod('ones', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -2652,13 +2652,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
-    if (subok<>true) then  kwargs['subok'] :=  TNumPy.ToPython(subok);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
+    if (subok<>true) then  kwargs['subok'] :=  TDeNumPy.ToPython(subok);
     py := FhModuleNumPy.InvokeMethod('ones_like', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -2669,13 +2669,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ ConvertArrayToNDarray<T>(a)]);
+    pyargs := TDeNumPy.ToTuple([ ConvertArrayToNDarray<T>(a)]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
-    if (subok<>true) then  kwargs['subok'] :=  TNumPy.ToPython(subok);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
+    if (subok<>true) then  kwargs['subok'] :=  TDeNumPy.ToPython(subok);
     py := FhModuleNumPy.InvokeMethod('ones_like', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 
@@ -2686,13 +2686,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ ConvertArrayToNDarray<T>(a)]);
+    pyargs := TDeNumPy.ToTuple([ ConvertArrayToNDarray<T>(a)]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
-    if (subok<>true) then  kwargs['subok'] :=  TNumPy.ToPython(subok);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
+    if (subok<>true) then  kwargs['subok'] :=  TDeNumPy.ToPython(subok);
     py := FhModuleNumPy.InvokeMethod('ones_like', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 class function TNumPyArray.zeros(shape : TArray<Integer>): TNDarray;
@@ -2707,12 +2707,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([TValue.FromShape(shape)]);
+    pyargs := TDeNumPy.ToTuple([TValue.FromShape(shape)]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
     py := FhModuleNumPy.InvokeMethod('zeros', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -2723,13 +2723,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
-    if (subok<>true) then  kwargs['subok'] :=  TNumPy.ToPython(subok);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
+    if (subok<>true) then  kwargs['subok'] :=  TDeNumPy.ToPython(subok);
     py := FhModuleNumPy.InvokeMethod('zeros_like', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -2740,13 +2740,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
-    if (subok<>true) then  kwargs['subok'] :=  TNumPy.ToPython(subok);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
+    if (subok<>true) then  kwargs['subok'] :=  TDeNumPy.ToPython(subok);
     py := FhModuleNumPy.InvokeMethod('zeros_like', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 
@@ -2757,13 +2757,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
-    if (subok<>true) then  kwargs['subok'] :=  TNumPy.ToPython(subok);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
+    if (subok<>true) then  kwargs['subok'] :=  TDeNumPy.ToPython(subok);
     py := FhModuleNumPy.InvokeMethod('zeros_like', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 
@@ -2774,12 +2774,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ TValue.FromShape(shape), fill_value]);
+    pyargs := TDeNumPy.ToTuple([ TValue.FromShape(shape), fill_value]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
     py := FhModuleNumPy.InvokeMethod('full', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -2790,13 +2790,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a,fill_value]);
+    pyargs := TDeNumPy.ToTuple([a,fill_value]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
-    if (subok<>true) then  kwargs['subok'] :=  TNumPy.ToPython(subok);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
+    if (subok<>true) then  kwargs['subok'] :=  TDeNumPy.ToPython(subok);
     py := FhModuleNumPy.InvokeMethod('full_like', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -2807,13 +2807,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(a), fill_value]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(a), fill_value]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
-    if (subok<>true) then  kwargs['subok'] :=  TNumPy.ToPython(subok);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
+    if (subok<>true) then  kwargs['subok'] :=  TDeNumPy.ToPython(subok);
     py := FhModuleNumPy.InvokeMethod('full_like', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 
@@ -2824,13 +2824,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(a),fill_value]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(a),fill_value]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
-    if (subok<>true) then  kwargs['subok'] :=  TNumPy.ToPython(subok);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
+    if (subok<>true) then  kwargs['subok'] :=  TDeNumPy.ToPython(subok);
     py := FhModuleNumPy.InvokeMethod('full_like', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 
@@ -2841,12 +2841,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
     py := FhModuleNumPy.InvokeMethod('asarray', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -2857,12 +2857,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
     py := FhModuleNumPy.InvokeMethod('asarray', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 
@@ -2873,12 +2873,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
     py := FhModuleNumPy.InvokeMethod('asarray', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 
@@ -2889,12 +2889,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
     py := FhModuleNumPy.InvokeMethod('asanyarray', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -2905,12 +2905,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
     py := FhModuleNumPy.InvokeMethod('asanyarray', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 Function TNumPyArray.asanyarray<T>(a : TArray2D<T>; dtype  : TDtype  =  nil; order  : pChar = nil): TNDarray<T>;
@@ -2920,12 +2920,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
     py := FhModuleNumPy.InvokeMethod('asanyarray', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 Function TNumPyArray.ascontiguousarray(a : TNDarray ; dtype  : TDtype  =  nil): TNDarray;
@@ -2935,11 +2935,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('ascontiguousarray', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.ascontiguousarray<T>(a : TArray<T>; dtype  : TDtype  =  nil): TNDarray<T>;
@@ -2949,11 +2949,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('ascontiguousarray', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 Function TNumPyArray.ascontiguousarray<T>(a : TArray2D<T>; dtype  : TDtype  =  nil): TNDarray<T>;
@@ -2963,11 +2963,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('ascontiguousarray', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 Function TNumPyArray.asmatrix(data : TNDarray ; dtype: TDtype): TMatrix;
@@ -2977,11 +2977,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([data,
+    pyargs := TDeNumPy.ToTuple([data,
         dtype]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('asmatrix', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TMatrix>(py);
+    Result := TDeNumPy.ToCsharp<TMatrix>(py);
 end;
 
 Function TNumPyArray.asmatrix<T>(data: TArray<T>; dtype: TDtype): TMatrix ;
@@ -2991,11 +2991,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(data),
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(data),
         dtype]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('asmatrix', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TMatrix>(py);
+    Result := TDeNumPy.ToCsharp<TMatrix>(py);
 end;
 
 Function TNumPyArray.asmatrix<T>(data: TArray2D<T>; dtype: TDtype): TMatrix ;
@@ -3005,11 +3005,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(data),
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(data),
         dtype]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('asmatrix', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TMatrix>(py);
+    Result := TDeNumPy.ToCsharp<TMatrix>(py);
 end;
 
 Function TNumPyArray.copy(a : TNDarray ; order  : pChar = nil): TNDarray;
@@ -3019,11 +3019,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([a]);
+    pyargs := TDeNumPy.ToTuple([a]);
     kwargs := TPyDict.Create;
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
     py := FhModuleNumPy.InvokeMethod('copy', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.copy<T>(a : TArray<T>; order  : pChar = nil): TNDarray<T>;
@@ -3033,11 +3033,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
     kwargs := TPyDict.Create;
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
     py := FhModuleNumPy.InvokeMethod('copy', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 Function TNumPyArray.copy<T>(a : TArray2D<T>; order  : pChar = nil): TNDarray<T>;
@@ -3047,11 +3047,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(a)]);
     kwargs := TPyDict.Create;
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
     py := FhModuleNumPy.InvokeMethod('copy', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 (*
@@ -3062,11 +3062,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([buffer]);
+    pyargs := TDeNumPy.ToTuple([buffer]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (count<>-1) then  kwargs['count'] :=  TNumPy.ToPython(count);
-    if (offset<>0) then  kwargs['offset'] :=  TNumPy.ToPython(offset);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (count<>-1) then  kwargs['count'] :=  TDeNumPy.ToPython(count);
+    if (offset<>0) then  kwargs['offset'] :=  TDeNumPy.ToPython(offset);
     py := FhModuleNumPy.InvokeMethod('frombuffer', pyargs, kwargs);
 end;
 *)
@@ -3078,11 +3078,11 @@ var
 
 begin
 
-    pyargs := TNumPy.ToTuple([ffile]);
+    pyargs := TDeNumPy.ToTuple([ffile]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (count<>-1) then  kwargs['count'] :=  TNumPy.ToPython(count);
-    if (sep<>'') then  kwargs['sep'] :=  TNumPy.ToPython(sep);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (count<>-1) then  kwargs['count'] :=  TDeNumPy.ToPython(count);
+    if (sep<>'') then  kwargs['sep'] :=  TDeNumPy.ToPython(sep);
     FhModuleNumPy.InvokeMethod('fromfile', pyargs, kwargs);
 end;
 
@@ -3094,12 +3094,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([function,
+    pyargs := TDeNumPy.ToTuple([function,
         shape]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('fromfunction', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<PPyObject>(py);
+    Result := TDeNumPy.ToCsharp<PPyObject>(py);
 end;
 
 Function TNumPyArray.fromiter<T>(IEnumerable<T> iterable, TDtype dtype, PInteger count = -1): TNDarray<T>;
@@ -3109,12 +3109,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([iterable,
+    pyargs := TDeNumPy.ToTuple([iterable,
         dtype]);
     kwargs := TPyDict.Create;
-    if (count<>-1) then  kwargs['count'] :=  TNumPy.ToPython(count);
+    if (count<>-1) then  kwargs['count'] :=  TDeNumPy.ToPython(count);
     py := FhModuleNumPy.InvokeMethod('fromiter', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 *)
 
@@ -3125,13 +3125,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([sStr]);
+    pyargs := TDeNumPy.ToTuple([sStr]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (count<>-1) then  kwargs['count'] :=  TNumPy.ToPython(count);
-    if (sep<>'') then  kwargs['sep'] :=  TNumPy.ToPython(sep);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (count<>-1) then  kwargs['count'] :=  TDeNumPy.ToPython(count);
+    if (sep<>'') then  kwargs['sep'] :=  TDeNumPy.ToPython(sep);
     py := FhModuleNumPy.InvokeMethod('fromstring', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 { TODO regolarizzazione parametri -oMax -c :  16/02/2020 18:06:13 }
@@ -3142,20 +3142,20 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([fname]);
+    pyargs := TDeNumPy.ToTuple([fname]);
     kwargs := TPyDict.Create;
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (comments<>nil) then  kwargs['comments'] :=  TNumPy.ToPython(TValue.FromArray<String>(comments));
-    if (delimiter<>nil) then  kwargs['delimiter'] :=  TNumPy.ToPython(delimiter);
-    if (converters<>nil) then  kwargs['converters'] :=  TNumPy.ToPython(TValue.FromArray<TVarRec>(converters));
-    if (skiprows<>0) then  kwargs['skiprows'] :=  TNumPy.ToPython(skiprows);
-    if (usecols<>nil) then  kwargs['usecols'] :=  TNumPy.ToPython(TValue.FromArray<Integer>(usecols));
-    if (unpack<>false) then  kwargs['unpack'] :=  TNumPy.ToPython(unpack);
-    if (ndmin<>0) then  kwargs['ndmin'] :=  TNumPy.ToPython(ndmin);
-    if (encoding<>'bytes') then  kwargs['encoding'] :=  TNumPy.ToPython(encoding);
-    if (max_rows<>nil) then  kwargs['max_rows'] :=  TNumPy.ToPython(max_rows^);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (comments<>nil) then  kwargs['comments'] :=  TDeNumPy.ToPython(TValue.FromArray<String>(comments));
+    if (delimiter<>nil) then  kwargs['delimiter'] :=  TDeNumPy.ToPython(delimiter);
+    if (converters<>nil) then  kwargs['converters'] :=  TDeNumPy.ToPython(TValue.FromArray<TVarRec>(converters));
+    if (skiprows<>0) then  kwargs['skiprows'] :=  TDeNumPy.ToPython(skiprows);
+    if (usecols<>nil) then  kwargs['usecols'] :=  TDeNumPy.ToPython(TValue.FromArray<Integer>(usecols));
+    if (unpack<>false) then  kwargs['unpack'] :=  TDeNumPy.ToPython(unpack);
+    if (ndmin<>0) then  kwargs['ndmin'] :=  TDeNumPy.ToPython(ndmin);
+    if (encoding<>'bytes') then  kwargs['encoding'] :=  TDeNumPy.ToPython(encoding);
+    if (max_rows<>nil) then  kwargs['max_rows'] :=  TDeNumPy.ToPython(max_rows^);
     py := FhModuleNumPy.InvokeMethod('loadtxt', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 (*
@@ -3167,15 +3167,15 @@ Function partial class core {
             var core = self.GetAttr('core');
             var defchararray = core.GetAttr('defchararray');
             var __self__=defchararray;
-            pyargs := TNumPy.ToTuple(new object[]
+            pyargs := TDeNumPy.ToTuple(new object[]
             {
                 obj,
             });
             kwargs := TPyDict.Create;
-            if (itemsize<>nil) then  kwargs['itemsize'] :=  TNumPy.ToPython(itemsize);
-            if (copy<>true) then  kwargs['copy'] :=  TNumPy.ToPython(copy);
-            if (unicode<>nil) then  kwargs['unicode'] :=  TNumPy.ToPython(unicode);
-            if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+            if (itemsize<>nil) then  kwargs['itemsize'] :=  TDeNumPy.ToPython(itemsize);
+            if (copy<>true) then  kwargs['copy'] :=  TDeNumPy.ToPython(copy);
+            if (unicode<>nil) then  kwargs['unicode'] :=  TDeNumPy.ToPython(unicode);
+            if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
             py := FhModuleNumPy.InvokeMethod('array', pyargs, kwargs);
         }
     }
@@ -3189,14 +3189,14 @@ var
 
 begin
 
-    pyargs := TNumPy.ToTuple([TValue.FromShape(shape)]);
+    pyargs := TDeNumPy.ToTuple([TValue.FromShape(shape)]);
     kwargs := TPyDict.Create;
-    if (itemsize<>nil) then  kwargs['itemsize'] :=  TNumPy.ToPython(itemsize^);
-    if (unicode<>nil) then  kwargs['unicode'] :=  TNumPy.ToPython(unicode^);
-    if (buffer<>nil) then  kwargs['buffer'] :=  TNumPy.ToPython(buffer^);
-    if (offset<>nil) then  kwargs['offset'] :=  TNumPy.ToPython(offset^);
-    if (strides<>nil) then  kwargs['strides'] :=  TNumPy.ToPython( TValue.FromArray<Integer>(strides));
-    if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+    if (itemsize<>nil) then  kwargs['itemsize'] :=  TDeNumPy.ToPython(itemsize^);
+    if (unicode<>nil) then  kwargs['unicode'] :=  TDeNumPy.ToPython(unicode^);
+    if (buffer<>nil) then  kwargs['buffer'] :=  TDeNumPy.ToPython(buffer^);
+    if (offset<>nil) then  kwargs['offset'] :=  TDeNumPy.ToPython(offset^);
+    if (strides<>nil) then  kwargs['strides'] :=  TDeNumPy.ToPython( TValue.FromArray<Integer>(strides));
+    if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
     FhModuleNumPy.InvokeMethod('chararray', pyargs, kwargs);
 end;
 
@@ -3209,14 +3209,14 @@ Function partial class core {
             var core = self.GetAttr('core');
             var defchararray = core.GetAttr('defchararray');
             var __self__=defchararray;
-            pyargs := TNumPy.ToTuple(new object[]
+            pyargs := TDeNumPy.ToTuple(new object[]
             {
                 obj,
             });
             kwargs := TPyDict.Create;
-            if (itemsize<>nil) then  kwargs['itemsize'] :=  TNumPy.ToPython(itemsize);
-            if (unicode<>nil) then  kwargs['unicode'] :=  TNumPy.ToPython(unicode);
-            if (order<>nil) then  kwargs['order'] :=  TNumPy.ToPython(order);
+            if (itemsize<>nil) then  kwargs['itemsize'] :=  TDeNumPy.ToPython(itemsize);
+            if (unicode<>nil) then  kwargs['unicode'] :=  TDeNumPy.ToPython(unicode);
+            if (order<>nil) then  kwargs['order'] :=  TDeNumPy.ToPython(order);
             py := FhModuleNumPy.InvokeMethod('asarray', pyargs, kwargs);
         }
     }
@@ -3230,13 +3230,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([start,
+    pyargs := TDeNumPy.ToTuple([start,
         stop]);
     kwargs := TPyDict.Create;
-    if (step<>1) then  kwargs['step'] :=  TNumPy.ToPython(step);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (step<>1) then  kwargs['step'] :=  TDeNumPy.ToPython(step);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('arange', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 class Function TNumPyArray.arange(stop : byte ; step  : byte  =  1; dtype  : TDtype  =  nil): TNDarray;
@@ -3246,12 +3246,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([stop]);
+    pyargs := TDeNumPy.ToTuple([stop]);
     kwargs := TPyDict.Create;
-    if (step<>1) then  kwargs['step'] :=  TNumPy.ToPython(step);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (step<>1) then  kwargs['step'] :=  TDeNumPy.ToPython(step);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('arange', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 class Function TNumPyArray.arange(start : Word ; stop : Word; step  : Word  =  1; dtype  : TDtype  =  nil): TNDarray;
@@ -3261,13 +3261,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([start,
+    pyargs := TDeNumPy.ToTuple([start,
         stop]);
     kwargs := TPyDict.Create;
-    if (step<>1) then  kwargs['step'] :=  TNumPy.ToPython(step);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (step<>1) then  kwargs['step'] :=  TDeNumPy.ToPython(step);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('arange', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 class Function TNumPyArray.arange(stop : Word ; step  : Word  =  1; dtype  : TDtype  =  nil): TNDarray;
@@ -3277,12 +3277,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([stop]);
+    pyargs := TDeNumPy.ToTuple([stop]);
     kwargs := TPyDict.Create;
-    if (step<>1) then  kwargs['step'] :=  TNumPy.ToPython(step);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (step<>1) then  kwargs['step'] :=  TDeNumPy.ToPython(step);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('arange', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 class Function TNumPyArray.arange(start : Integer ; stop: Integer; step  : Integer  =  1; dtype  : TDtype  =  nil): TNDarray;
@@ -3292,13 +3292,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([start,
+    pyargs := TDeNumPy.ToTuple([start,
         stop]);
     kwargs := TPyDict.Create;
-    if (step<>1) then  kwargs['step'] :=  TNumPy.ToPython(step);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (step<>1) then  kwargs['step'] :=  TDeNumPy.ToPython(step);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('arange', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 class Function TNumPyArray.arange(stop : Integer ; step  : Integer  =  1; dtype  : TDtype  =  nil): TNDarray;
@@ -3308,12 +3308,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([stop]);
+    pyargs := TDeNumPy.ToTuple([stop]);
     kwargs := TPyDict.Create;
-    if (step<>1) then  kwargs['step'] :=  TNumPy.ToPython(step);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (step<>1) then  kwargs['step'] :=  TDeNumPy.ToPython(step);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('arange', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 class Function TNumPyArray.arange(start : Int64 ; stop: Int64; step  : Int64  =  1; dtype  : TDtype  =  nil): TNDarray;
@@ -3323,13 +3323,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([start,
+    pyargs := TDeNumPy.ToTuple([start,
         stop]);
     kwargs := TPyDict.Create;
-    if (step<>1) then  kwargs['step'] :=  TNumPy.ToPython(step);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (step<>1) then  kwargs['step'] :=  TDeNumPy.ToPython(step);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('arange', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 class Function TNumPyArray.arange(stop : int64 ; step  : Int64  =  1; dtype  : TDtype  =  nil): TNDarray;
@@ -3339,12 +3339,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([stop]);
+    pyargs := TDeNumPy.ToTuple([stop]);
     kwargs := TPyDict.Create;
-    if (step<>1) then  kwargs['step'] :=  TNumPy.ToPython(step);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (step<>1) then  kwargs['step'] :=  TDeNumPy.ToPython(step);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('arange', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 class Function TNumPyArray.arange(start : Single ; stop: Single; step  : Single  =  1; dtype  : TDtype  =  nil): TNDarray;
@@ -3354,13 +3354,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([start,
+    pyargs := TDeNumPy.ToTuple([start,
         stop]);
     kwargs := TPyDict.Create;
-    if (step<>1) then  kwargs['step'] :=  TNumPy.ToPython(step);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (step<>1) then  kwargs['step'] :=  TDeNumPy.ToPython(step);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('arange', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 class Function TNumPyArray.arange(stop : Single ; step  : Single  =  1; dtype  : TDtype  =  nil): TNDarray;
@@ -3370,12 +3370,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([stop]);
+    pyargs := TDeNumPy.ToTuple([stop]);
     kwargs := TPyDict.Create;
-    if (step<>1) then  kwargs['step'] :=  TNumPy.ToPython(step);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (step<>1) then  kwargs['step'] :=  TDeNumPy.ToPython(step);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('arange', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 class Function TNumPyArray.arange(start : double ; stop: double; step  : double  =  1; dtype  : TDtype  =  nil): TNDarray;
@@ -3385,13 +3385,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([start,
+    pyargs := TDeNumPy.ToTuple([start,
         stop]);
     kwargs := TPyDict.Create;
-    if (step<>1) then  kwargs['step'] :=  TNumPy.ToPython(step);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (step<>1) then  kwargs['step'] :=  TDeNumPy.ToPython(step);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('arange', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 class Function TNumPyArray.arange(stop : double ; step  : double  =  1; dtype  : TDtype  =  nil): TNDarray;
@@ -3401,12 +3401,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([stop]);
+    pyargs := TDeNumPy.ToTuple([stop]);
     kwargs := TPyDict.Create;
-    if (step<>1) then  kwargs['step'] :=  TNumPy.ToPython(step);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (step<>1) then  kwargs['step'] :=  TDeNumPy.ToPython(step);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('arange', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.linspace(start : TNDarray ; stop: TNDarray ; num  : Integer  =  50; endpoint  : Boolean  =  true; dtype  : TDtype  =  nil; axis  : Integer  =  0): TArray<TValue>;
@@ -3417,19 +3417,19 @@ var
   res    : TArray<TPythonObject>;
 begin
 
-    pyargs := TNumPy.ToTuple([start, stop]);
+    pyargs := TDeNumPy.ToTuple([start, stop]);
     kwargs := TPyDict.Create;
-    if (num<>50) then  kwargs['num'] :=  TNumPy.ToPython(num);
-    if (endpoint<>true) then  kwargs['endpoint'] :=  TNumPy.ToPython(endpoint);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (axis<>0) then  kwargs['axis'] :=  TNumPy.ToPython(axis);
+    if (num<>50) then  kwargs['num'] :=  TDeNumPy.ToPython(num);
+    if (endpoint<>true) then  kwargs['endpoint'] :=  TDeNumPy.ToPython(endpoint);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (axis<>0) then  kwargs['axis'] :=  TDeNumPy.ToPython(axis);
     py := FhModuleNumPy.InvokeMethod('linspace', pyargs, kwargs);
 
     res := py.AsArrayofPyObj;
 
     SetLength(Result,3);
-    Result[0] := TNumPy.ToCsharp<TNDarray>(res[0]);
-    Result[1] := TNumPy.ToCsharp<Double>(res[1]);
+    Result[0] := TDeNumPy.ToCsharp<TNDarray>(res[0]);
+    Result[1] := TDeNumPy.ToCsharp<Double>(res[1]);
 
 end;
 
@@ -3440,14 +3440,14 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([start, stop]);
+    pyargs := TDeNumPy.ToTuple([start, stop]);
     kwargs := TPyDict.Create;
-    if (num<>50) then  kwargs['num'] :=  TNumPy.ToPython(num);
-    if (endpoint<>true) then  kwargs['endpoint'] :=  TNumPy.ToPython(endpoint);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (axis<>0) then  kwargs['axis'] :=  TNumPy.ToPython(axis);
+    if (num<>50) then  kwargs['num'] :=  TDeNumPy.ToPython(num);
+    if (endpoint<>true) then  kwargs['endpoint'] :=  TDeNumPy.ToPython(endpoint);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (axis<>0) then  kwargs['axis'] :=  TDeNumPy.ToPython(axis);
     py := FhModuleNumPy.InvokeMethod('linspace', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.logspace(start : TNDarray ; stop: TNDarray; num : Integer = 50; endpoint : Boolean = true; base : Double = 10.0; dtype  : TDtype  =  nil; axis  : Integer  =  0): TNDarray;
@@ -3457,16 +3457,16 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([start,
+    pyargs := TDeNumPy.ToTuple([start,
         stop]);
     kwargs := TPyDict.Create;
-    if (num<>50) then  kwargs['num'] :=  TNumPy.ToPython(num);
-    if (endpoint<>true) then  kwargs['endpoint'] :=  TNumPy.ToPython(endpoint);
-    if (base<>10.0) then  kwargs['base'] :=  TNumPy.ToPython(@base);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (axis<>0) then  kwargs['axis'] :=  TNumPy.ToPython(axis);
+    if (num<>50) then  kwargs['num'] :=  TDeNumPy.ToPython(num);
+    if (endpoint<>true) then  kwargs['endpoint'] :=  TDeNumPy.ToPython(endpoint);
+    if (base<>10.0) then  kwargs['base'] :=  TDeNumPy.ToPython(@base);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (axis<>0) then  kwargs['axis'] :=  TDeNumPy.ToPython(axis);
     py := FhModuleNumPy.InvokeMethod('logspace', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.geomspace(start : TNDarray ; stop: TNDarray; num : Integer = 50; endpoint : Boolean  =  true; dtype  : TDtype  =  nil; axis  : Integer  =  0): TNDarray;
@@ -3476,15 +3476,15 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([start,
+    pyargs := TDeNumPy.ToTuple([start,
         stop]);
     kwargs := TPyDict.Create;
-    if (num<>50) then  kwargs['num'] :=  TNumPy.ToPython(num);
-    if (endpoint<>true) then  kwargs['endpoint'] :=  TNumPy.ToPython(endpoint);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
-    if (axis<>0) then  kwargs['axis'] :=  TNumPy.ToPython(axis);
+    if (num<>50) then  kwargs['num'] :=  TDeNumPy.ToPython(num);
+    if (endpoint<>true) then  kwargs['endpoint'] :=  TDeNumPy.ToPython(endpoint);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
+    if (axis<>0) then  kwargs['axis'] :=  TDeNumPy.ToPython(axis);
     py := FhModuleNumPy.InvokeMethod('geomspace', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 (*
@@ -3495,14 +3495,14 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x2,
+    pyargs := TDeNumPy.ToTuple([x2,
         x1]);
     kwargs := TPyDict.Create;
-    if (indexing<>nil) then  kwargs['indexing'] :=  TNumPy.ToPython(indexing);
-    if (sparse<>nil) then  kwargs['sparse'] :=  TNumPy.ToPython(sparse);
-    if (copy<>nil) then  kwargs['copy'] :=  TNumPy.ToPython(copy);
+    if (indexing<>nil) then  kwargs['indexing'] :=  TDeNumPy.ToPython(indexing);
+    if (sparse<>nil) then  kwargs['sparse'] :=  TDeNumPy.ToPython(sparse);
+    if (copy<>nil) then  kwargs['copy'] :=  TDeNumPy.ToPython(copy);
     py := FhModuleNumPy.InvokeMethod('meshgrid', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 *)
 
@@ -3514,13 +3514,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(x2), x1]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(x2), x1]);
     kwargs := TPyDict.Create;
-    if (indexing<>nil) then  kwargs['indexing'] :=  TNumPy.ToPython(indexing);
-    if (sparse<>nil) then  kwargs['sparse'] :=  TNumPy.ToPython(sparse);
-    if (copy<>nil) then  kwargs['copy'] :=  TNumPy.ToPython(copy);
+    if (indexing<>nil) then  kwargs['indexing'] :=  TDeNumPy.ToPython(indexing);
+    if (sparse<>nil) then  kwargs['sparse'] :=  TDeNumPy.ToPython(sparse);
+    if (copy<>nil) then  kwargs['copy'] :=  TDeNumPy.ToPython(copy);
     py := FhModuleNumPy.InvokeMethod('meshgrid', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 *)
 
@@ -3532,14 +3532,14 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(x2),
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(x2),
         x1]);
     kwargs := TPyDict.Create;
-    if (indexing<>nil) then  kwargs['indexing'] :=  TNumPy.ToPython(indexing);
-    if (sparse<>nil) then  kwargs['sparse'] :=  TNumPy.ToPython(sparse);
-    if (copy<>nil) then  kwargs['copy'] :=  TNumPy.ToPython(copy);
+    if (indexing<>nil) then  kwargs['indexing'] :=  TDeNumPy.ToPython(indexing);
+    if (sparse<>nil) then  kwargs['sparse'] :=  TDeNumPy.ToPython(sparse);
+    if (copy<>nil) then  kwargs['copy'] :=  TDeNumPy.ToPython(copy);
     py := FhModuleNumPy.InvokeMethod('meshgrid', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 *)
 
@@ -3551,13 +3551,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x2,  ConvertArrayToNDarray<T>(x1)]);
+    pyargs := TDeNumPy.ToTuple([x2,  ConvertArrayToNDarray<T>(x1)]);
     kwargs := TPyDict.Create;
-    if (indexing<>nil) then  kwargs['indexing'] :=  TNumPy.ToPython(indexing);
-    if (sparse<>nil) then  kwargs['sparse'] :=  TNumPy.ToPython(sparse);
-    if (copy<>nil) then  kwargs['copy'] :=  TNumPy.ToPython(copy);
+    if (indexing<>nil) then  kwargs['indexing'] :=  TDeNumPy.ToPython(indexing);
+    if (sparse<>nil) then  kwargs['sparse'] :=  TDeNumPy.ToPython(sparse);
+    if (copy<>nil) then  kwargs['copy'] :=  TDeNumPy.ToPython(copy);
     py := FhModuleNumPy.InvokeMethod('meshgrid', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 *)
 
@@ -3569,13 +3569,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x2, ConvertArrayToNDarray<T>(x1)]);
+    pyargs := TDeNumPy.ToTuple([x2, ConvertArrayToNDarray<T>(x1)]);
     kwargs := TPyDict.Create;
-    if (indexing<>nil) then  kwargs['indexing'] :=  TNumPy.ToPython(indexing);
-    if (sparse<>nil) then  kwargs['sparse'] :=  TNumPy.ToPython(sparse);
-    if (copy<>nil) then  kwargs['copy'] :=  TNumPy.ToPython(copy);
+    if (indexing<>nil) then  kwargs['indexing'] :=  TDeNumPy.ToPython(indexing);
+    if (sparse<>nil) then  kwargs['sparse'] :=  TDeNumPy.ToPython(sparse);
+    if (copy<>nil) then  kwargs['copy'] :=  TDeNumPy.ToPython(copy);
     py := FhModuleNumPy.InvokeMethod('meshgrid', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 *)
 
@@ -3587,13 +3587,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(x2),  ConvertArrayToNDarray<T>(x1)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(x2),  ConvertArrayToNDarray<T>(x1)]);
     kwargs := TPyDict.Create;
-    if (indexing<>nil) then  kwargs['indexing'] :=  TNumPy.ToPython(indexing);
-    if (sparse<>nil) then  kwargs['sparse'] :=  TNumPy.ToPython(sparse);
-    if (copy<>nil) then  kwargs['copy'] :=  TNumPy.ToPython(copy);
+    if (indexing<>nil) then  kwargs['indexing'] :=  TDeNumPy.ToPython(indexing);
+    if (sparse<>nil) then  kwargs['sparse'] :=  TDeNumPy.ToPython(sparse);
+    if (copy<>nil) then  kwargs['copy'] :=  TDeNumPy.ToPython(copy);
     py := FhModuleNumPy.InvokeMethod('meshgrid', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 *)
 
@@ -3605,13 +3605,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(x2),  ConvertArrayToNDarray<T>(x1)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(x2),  ConvertArrayToNDarray<T>(x1)]);
     kwargs := TPyDict.Create;
-    if (indexing<>nil) then  kwargs['indexing'] :=  TNumPy.ToPython(indexing);
-    if (sparse<>nil) then  kwargs['sparse'] :=  TNumPy.ToPython(sparse);
-    if (copy<>nil) then  kwargs['copy'] :=  TNumPy.ToPython(copy);
+    if (indexing<>nil) then  kwargs['indexing'] :=  TDeNumPy.ToPython(indexing);
+    if (sparse<>nil) then  kwargs['sparse'] :=  TDeNumPy.ToPython(sparse);
+    if (copy<>nil) then  kwargs['copy'] :=  TDeNumPy.ToPython(copy);
     py := FhModuleNumPy.InvokeMethod('meshgrid', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 *)
 
@@ -3623,13 +3623,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(x2), ConvertArrayToNDarray<T>(x1)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(x2), ConvertArrayToNDarray<T>(x1)]);
     kwargs := TPyDict.Create;
-    if (indexing<>nil) then  kwargs['indexing'] :=  TNumPy.ToPython(indexing);
-    if (sparse<>nil) then  kwargs['sparse'] :=  TNumPy.ToPython(sparse);
-    if (copy<>nil) then  kwargs['copy'] :=  TNumPy.ToPython(copy);
+    if (indexing<>nil) then  kwargs['indexing'] :=  TDeNumPy.ToPython(indexing);
+    if (sparse<>nil) then  kwargs['sparse'] :=  TDeNumPy.ToPython(sparse);
+    if (copy<>nil) then  kwargs['copy'] :=  TDeNumPy.ToPython(copy);
     py := FhModuleNumPy.InvokeMethod('meshgrid', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 *)
 
@@ -3641,13 +3641,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(x2), ConvertArrayToNDarray<T>(x1)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(x2), ConvertArrayToNDarray<T>(x1)]);
     kwargs := TPyDict.Create;
-    if (indexing<>nil) then  kwargs['indexing'] :=  TNumPy.ToPython(indexing);
-    if (sparse<>nil) then  kwargs['sparse'] :=  TNumPy.ToPython(sparse);
-    if (copy<>nil) then  kwargs['copy'] :=  TNumPy.ToPython(copy);
+    if (indexing<>nil) then  kwargs['indexing'] :=  TDeNumPy.ToPython(indexing);
+    if (sparse<>nil) then  kwargs['sparse'] :=  TDeNumPy.ToPython(sparse);
+    if (copy<>nil) then  kwargs['copy'] :=  TDeNumPy.ToPython(copy);
     py := FhModuleNumPy.InvokeMethod('meshgrid', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 *)
 
@@ -3667,7 +3667,7 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([mesh-grid `ndarrays` with only one dimension]);
+    pyargs := TDeNumPy.ToTuple([mesh-grid `ndarrays` with only one dimension]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('ogrid', pyargs, kwargs);
 end;
@@ -3680,11 +3680,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([v]);
+    pyargs := TDeNumPy.ToTuple([v]);
     kwargs := TPyDict.Create;
-    if (k<>0) then  kwargs['k'] :=  TNumPy.ToPython(k);
+    if (k<>0) then  kwargs['k'] :=  TDeNumPy.ToPython(k);
     py := FhModuleNumPy.InvokeMethod('diag', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.diag<T>(v: TArray<T>; k  : Integer  =  0):TNDarray<T>;
@@ -3694,11 +3694,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(v)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(v)]);
     kwargs := TPyDict.Create;
-    if (k<>0) then  kwargs['k'] :=  TNumPy.ToPython(k);
+    if (k<>0) then  kwargs['k'] :=  TDeNumPy.ToPython(k);
     py := FhModuleNumPy.InvokeMethod('diag', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 Function TNumPyArray.diag<T>(v: TArray2D<T>; k  : Integer  =  0): TNDarray<T>;
@@ -3708,11 +3708,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(v)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(v)]);
     kwargs := TPyDict.Create;
-    if (k<>0) then  kwargs['k'] :=  TNumPy.ToPython(k);
+    if (k<>0) then  kwargs['k'] :=  TDeNumPy.ToPython(k);
     py := FhModuleNumPy.InvokeMethod('diag', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 Function TNumPyArray.diagflat(v : TNDarray ; k  : Integer  =  0):TNDarray;
@@ -3722,11 +3722,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([v]);
+    pyargs := TDeNumPy.ToTuple([v]);
     kwargs := TPyDict.Create;
-    if (k<>0) then  kwargs['k'] :=  TNumPy.ToPython(k);
+    if (k<>0) then  kwargs['k'] :=  TDeNumPy.ToPython(k);
     py := FhModuleNumPy.InvokeMethod('diagflat', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.diagflat<T>(v: TArray<T>; k  : Integer  =  0):TNDarray<T>;
@@ -3736,11 +3736,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(v)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(v)]);
     kwargs := TPyDict.Create;
-    if (k<>0) then  kwargs['k'] :=  TNumPy.ToPython(k);
+    if (k<>0) then  kwargs['k'] :=  TDeNumPy.ToPython(k);
     py := FhModuleNumPy.InvokeMethod('diagflat', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 Function TNumPyArray.diagflat<T>(v: TArray2D<T>; k  : Integer  =  0):TNDarray<T>;
@@ -3750,11 +3750,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(v)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(v)]);
     kwargs := TPyDict.Create;
-    if (k<>0) then  kwargs['k'] :=  TNumPy.ToPython(k);
+    if (k<>0) then  kwargs['k'] :=  TDeNumPy.ToPython(k);
     py := FhModuleNumPy.InvokeMethod('diagflat', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 Function TNumPyArray.tri(N : Integer ; M  : PInteger  =  nil; k  : Integer  =  0; dtype  : TDtype  =  nil):TNDarray;
@@ -3764,13 +3764,13 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([N]);
+    pyargs := TDeNumPy.ToTuple([N]);
     kwargs := TPyDict.Create;
-    if (M<>nil) then  kwargs['M'] :=  TNumPy.ToPython(M^);
-    if (k<>0) then  kwargs['k'] :=  TNumPy.ToPython(k);
-    if (dtype<>nil) then  kwargs['dtype'] :=  TNumPy.ToPython(dtype);
+    if (M<>nil) then  kwargs['M'] :=  TDeNumPy.ToPython(M^);
+    if (k<>0) then  kwargs['k'] :=  TDeNumPy.ToPython(k);
+    if (dtype<>nil) then  kwargs['dtype'] :=  TDeNumPy.ToPython(dtype);
     py := FhModuleNumPy.InvokeMethod('tri', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.tril(m : TNDarray ; k  : Integer  =  0):TNDarray;
@@ -3780,11 +3780,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([m]);
+    pyargs := TDeNumPy.ToTuple([m]);
     kwargs := TPyDict.Create;
-    if (k<>0) then  kwargs['k'] :=  TNumPy.ToPython(k);
+    if (k<>0) then  kwargs['k'] :=  TDeNumPy.ToPython(k);
     py := FhModuleNumPy.InvokeMethod('tril', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function TNumPyArray.tril<T>(m: TArray<T>; k  : Integer  =  0):TNDarray<T>;
@@ -3794,11 +3794,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(m)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(m)]);
     kwargs := TPyDict.Create;
-    if (k<>0) then  kwargs['k'] :=  TNumPy.ToPython(k);
+    if (k<>0) then  kwargs['k'] :=  TDeNumPy.ToPython(k);
     py := FhModuleNumPy.InvokeMethod('tril', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 Function TNumPyArray.tril<T>(m: TArray2D<T>; k  : Integer  =  0):TNDarray<T>;
@@ -3808,11 +3808,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(m)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(m)]);
     kwargs := TPyDict.Create;
-    if (k<>0) then  kwargs['k'] :=  TNumPy.ToPython(k);
+    if (k<>0) then  kwargs['k'] :=  TDeNumPy.ToPython(k);
     py := FhModuleNumPy.InvokeMethod('tril', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 Function TNumPyArray.vander(x : TNDarray ; N  : PInteger  =  nil; increasing  : Boolean  =  false):TNDarray;
@@ -3822,12 +3822,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([x]);
+    pyargs := TDeNumPy.ToTuple([x]);
     kwargs := TPyDict.Create;
-    if (N<>nil) then  kwargs['N'] :=  TNumPy.ToPython(N^);
-    if (increasing<>false) then  kwargs['increasing'] :=  TNumPy.ToPython(increasing);
+    if (N<>nil) then  kwargs['N'] :=  TDeNumPy.ToPython(N^);
+    if (increasing<>false) then  kwargs['increasing'] :=  TDeNumPy.ToPython(increasing);
     py := FhModuleNumPy.InvokeMethod('vander', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 
@@ -3838,12 +3838,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(x)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(x)]);
     kwargs := TPyDict.Create;
-    if (N<>nil) then  kwargs['N'] :=  TNumPy.ToPython(N^);
-    if (increasing<>false) then  kwargs['increasing'] :=  TNumPy.ToPython(increasing);
+    if (N<>nil) then  kwargs['N'] :=  TDeNumPy.ToPython(N^);
+    if (increasing<>false) then  kwargs['increasing'] :=  TDeNumPy.ToPython(increasing);
     py := FhModuleNumPy.InvokeMethod('vander', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 
@@ -3854,12 +3854,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(x)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(x)]);
     kwargs := TPyDict.Create;
-    if (N<>nil) then  kwargs['N'] :=  TNumPy.ToPython(N^);
-    if (increasing<>false) then  kwargs['increasing'] :=  TNumPy.ToPython(increasing);
+    if (N<>nil) then  kwargs['N'] :=  TDeNumPy.ToPython(N^);
+    if (increasing<>false) then  kwargs['increasing'] :=  TDeNumPy.ToPython(increasing);
     py := FhModuleNumPy.InvokeMethod('vander', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<TNDarray<T>>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray<T>>(py);
 end;
 
 (*
@@ -3870,11 +3870,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([data,
+    pyargs := TDeNumPy.ToTuple([data,
         dtype]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('mat', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<Matrix>(py);
+    Result := TDeNumPy.ToCsharp<Matrix>(py);
 end;
 *)
 
@@ -3886,11 +3886,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(data),
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(data),
         dtype]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('mat', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<Matrix>(py);
+    Result := TDeNumPy.ToCsharp<Matrix>(py);
 end;
 *)
 
@@ -3902,11 +3902,11 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(data),
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(data),
         dtype]);
     kwargs := TPyDict.Create;
     py := FhModuleNumPy.InvokeMethod('mat', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<Matrix>(py);
+    Result := TDeNumPy.ToCsharp<Matrix>(py);
 end;
 *)
 
@@ -3918,12 +3918,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([obj]);
+    pyargs := TDeNumPy.ToTuple([obj]);
     kwargs := TPyDict.Create;
-    if (ldict<>nil) then  kwargs['ldict'] :=  TNumPy.ToPython(ldict);
-    if (gdict<>nil) then  kwargs['gdict'] :=  TNumPy.ToPython(gdict);
+    if (ldict<>nil) then  kwargs['ldict'] :=  TDeNumPy.ToPython(ldict);
+    if (gdict<>nil) then  kwargs['gdict'] :=  TDeNumPy.ToPython(gdict);
     py := FhModuleNumPy.InvokeMethod('bmat', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<Matrix>(py);
+    Result := TDeNumPy.ToCsharp<Matrix>(py);
 end;
 *)
 
@@ -3935,12 +3935,12 @@ var
   py     : TPythonObject;
 begin
 
-    pyargs := TNumPy.ToTuple([ConvertArrayToNDarray<T>(obj)]);
+    pyargs := TDeNumPy.ToTuple([ConvertArrayToNDarray<T>(obj)]);
     kwargs := TPyDict.Create;
-    if (ldict<>nil) then  kwargs['ldict'] :=  TNumPy.ToPython(ldict);
-    if (gdict<>nil) then  kwargs['gdict'] :=  TNumPy.ToPython(gdict);
+    if (ldict<>nil) then  kwargs['ldict'] :=  TDeNumPy.ToPython(ldict);
+    if (gdict<>nil) then  kwargs['gdict'] :=  TDeNumPy.ToPython(gdict);
     py := FhModuleNumPy.InvokeMethod('bmat', pyargs, kwargs);
-    Result := TNumPy.ToCsharp<Matrix<T>>(py);
+    Result := TDeNumPy.ToCsharp<Matrix<T>>(py);
 end;
 *)
 
@@ -3956,19 +3956,19 @@ var
   kwargs : TPyDict;
   py     : TPythonObject;
 begin
-    pyargs := TNumPy.ToTuple([obj]);
+    pyargs := TDeNumPy.ToTuple([obj]);
     kwargs := TPyDict.Create;
 
 
-    if (dtype <> nil) then kwargs['dtype'] := TNumPy.ToPython(dtype);
-    if (copy <> nil)  then kwargs['copy']  := TNumPy.ToPython(copy^);
-    if (order <> nil) then kwargs['order'] := TNumPy.ToPython(order^);
-    if (subok <> nil) then kwargs['subok'] := TNumPy.ToPython(subok^);
-    if (ndmin <> nil) then kwargs['ndmin'] := TNumPy.ToPython(ndmin^);
+    if (dtype <> nil) then kwargs['dtype'] := TDeNumPy.ToPython(dtype);
+    if (copy <> nil)  then kwargs['copy']  := TDeNumPy.ToPython(copy^);
+    if (order <> nil) then kwargs['order'] := TDeNumPy.ToPython(order^);
+    if (subok <> nil) then kwargs['subok'] := TDeNumPy.ToPython(subok^);
+    if (ndmin <> nil) then kwargs['ndmin'] := TDeNumPy.ToPython(ndmin^);
 
     py := FhModuleNumPy.InvokeMethod('array', pyargs, kwargs);
 
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 
 end;
 
@@ -3980,18 +3980,18 @@ var
   kwargs : TPyDict;
 begin
 
-   pyargs := TNumPy.ToTuple([TValue.FromArray<TNDarray>(obj)]);
+   pyargs := TDeNumPy.ToTuple([TValue.FromArray<TNDarray>(obj)]);
    kwargs := TPyDict.Create;
 
-   if (dtype <> nil) then kwargs['dtype'] := TNumPy.ToPython(dtype);
-   if (copy <> nil)  then kwargs['copy']  := TNumPy.ToPython(copy^);
-   if (order <> nil) then kwargs['order'] := TNumPy.ToPython(order^);
-   if (subok <> nil) then kwargs['subok'] := TNumPy.ToPython(subok^);
-   if (ndmin <> nil) then kwargs['ndmin'] := TNumPy.ToPython(ndmin^);
+   if (dtype <> nil) then kwargs['dtype'] := TDeNumPy.ToPython(dtype);
+   if (copy <> nil)  then kwargs['copy']  := TDeNumPy.ToPython(copy^);
+   if (order <> nil) then kwargs['order'] := TDeNumPy.ToPython(order^);
+   if (subok <> nil) then kwargs['subok'] := TDeNumPy.ToPython(subok^);
+   if (ndmin <> nil) then kwargs['ndmin'] := TDeNumPy.ToPython(ndmin^);
 
    pydarray := FhModuleNumPy.InvokeMethod('array', pyargs, kwargs);
 
-   Result := TNumPy.ToCsharp< TNDarray >(pydarray);
+   Result := TDeNumPy.ToCsharp< TNDarray >(pydarray);
 
 end;
 
@@ -4004,17 +4004,17 @@ var
 begin
 
 
-   pyargs := TNumPy.ToTuple([ TValue.FromArray<string>(obj) ]);
+   pyargs := TDeNumPy.ToTuple([ TValue.FromArray<string>(obj) ]);
    kwargs := TPyDict.Create;
 
-   if (itemsize <> nil)  then kwargs['itemsize']:= TNumPy.ToPython(itemsize^);
-   if (copy <> nil)      then kwargs['copy']    := TNumPy.ToPython(copy^);
-   if (unicode <> nil)   then kwargs['unicode'] := TNumPy.ToPython(unicode^);
-   if (order <> nil)    then kwargs['order']    := TNumPy.ToPython(order^);
+   if (itemsize <> nil)  then kwargs['itemsize']:= TDeNumPy.ToPython(itemsize^);
+   if (copy <> nil)      then kwargs['copy']    := TDeNumPy.ToPython(copy^);
+   if (unicode <> nil)   then kwargs['unicode'] := TDeNumPy.ToPython(unicode^);
+   if (order <> nil)    then kwargs['order']    := TDeNumPy.ToPython(order^);
 
    pydarray := FhModuleNumPy.InvokeMethod('array', pyargs, kwargs);
 
-   Result := TNumPy.ToCsharp< TNDarray >(pydarray);
+   Result := TDeNumPy.ToCsharp< TNDarray >(pydarray);
 
 end;
 
@@ -4051,18 +4051,18 @@ begin
 
    py := g_MyPyEngine.VariantAsPyObject(varArray) ;
 
-   pyargs := TNumPy.ToTuple([TValue.From<PPyObject>(py)]);
+   pyargs := TDeNumPy.ToTuple([TValue.From<PPyObject>(py)]);
    kwargs := TPyDict.Create;
 
-   if (dtype <> nil) then kwargs['dtype'] := TNumPy.ToPython(dtype);
-   if (copy <> nil)  then kwargs['copy']  := TNumPy.ToPython(copy^);
-   if (order <> nil) then kwargs['order'] := TNumPy.ToPython(order^);
-   if (subok <> nil) then kwargs['subok'] := TNumPy.ToPython(subok^);
-   if (ndmin <> nil) then kwargs['ndmin'] := TNumPy.ToPython(ndmin^);
+   if (dtype <> nil) then kwargs['dtype'] := TDeNumPy.ToPython(dtype);
+   if (copy <> nil)  then kwargs['copy']  := TDeNumPy.ToPython(copy^);
+   if (order <> nil) then kwargs['order'] := TDeNumPy.ToPython(order^);
+   if (subok <> nil) then kwargs['subok'] := TDeNumPy.ToPython(subok^);
+   if (ndmin <> nil) then kwargs['ndmin'] := TDeNumPy.ToPython(ndmin^);
 
    pydarray := FhModuleNumPy.InvokeMethod('array', pyargs, kwargs);
 
-   Result := TNumPy.ToCsharp< TNDarray<T> >(pydarray);
+   Result := TDeNumPy.ToCsharp< TNDarray<T> >(pydarray);
 
 end;
 
@@ -4103,18 +4103,18 @@ begin
 
    py := g_MyPyEngine.VariantAsPyObject(varArray) ;
 
-   pyargs := TNumPy.ToTuple([TValue.From<PPyObject>(py)]);
+   pyargs := TDeNumPy.ToTuple([TValue.From<PPyObject>(py)]);
    kwargs := TPyDict.Create;
 
-   if (dtype <> nil) then kwargs['dtype'] := TNumPy.ToPython(dtype);
-   if (copy <> nil)  then kwargs['copy']  := TNumPy.ToPython(copy^);
-   if (order <> nil) then kwargs['order'] := TNumPy.ToPython(order^);
-   if (subok <> nil) then kwargs['subok'] := TNumPy.ToPython(subok^);
-   if (ndmin <> nil) then kwargs['ndmin'] := TNumPy.ToPython(ndmin^);
+   if (dtype <> nil) then kwargs['dtype'] := TDeNumPy.ToPython(dtype);
+   if (copy <> nil)  then kwargs['copy']  := TDeNumPy.ToPython(copy^);
+   if (order <> nil) then kwargs['order'] := TDeNumPy.ToPython(order^);
+   if (subok <> nil) then kwargs['subok'] := TDeNumPy.ToPython(subok^);
+   if (ndmin <> nil) then kwargs['ndmin'] := TDeNumPy.ToPython(ndmin^);
 
    pydarray := FhModuleNumPy.InvokeMethod('array', pyargs, kwargs);
 
-   Result := TNumPy.ToCsharp< TNDarray<T> >(pydarray);
+   Result := TDeNumPy.ToCsharp< TNDarray<T> >(pydarray);
 
 end;
 
@@ -4159,18 +4159,18 @@ begin
 
    py := g_MyPyEngine.VariantAsPyObject(varArray) ;
 
-   pyargs := TNumPy.ToTuple([TValue.From<PPyObject>(py)]);
+   pyargs := TDeNumPy.ToTuple([TValue.From<PPyObject>(py)]);
    kwargs := TPyDict.Create;
 
-   if (dtype <> nil) then kwargs['dtype'] := TNumPy.ToPython(dtype);
-   if (copy <> nil)  then kwargs['copy']  := TNumPy.ToPython(copy^);
-   if (order <> nil) then kwargs['order'] := TNumPy.ToPython(order^);
-   if (subok <> nil) then kwargs['subok'] := TNumPy.ToPython(subok^);
-   if (ndmin <> nil) then kwargs['ndmin'] := TNumPy.ToPython(ndmin^);
+   if (dtype <> nil) then kwargs['dtype'] := TDeNumPy.ToPython(dtype);
+   if (copy <> nil)  then kwargs['copy']  := TDeNumPy.ToPython(copy^);
+   if (order <> nil) then kwargs['order'] := TDeNumPy.ToPython(order^);
+   if (subok <> nil) then kwargs['subok'] := TDeNumPy.ToPython(subok^);
+   if (ndmin <> nil) then kwargs['ndmin'] := TDeNumPy.ToPython(ndmin^);
 
    pydarray := FhModuleNumPy.InvokeMethod('array', pyargs, kwargs);
 
-   Result := TNumPy.ToCsharp< TNDarray<T> >(pydarray);
+   Result := TDeNumPy.ToCsharp< TNDarray<T> >(pydarray);
 
 end;
 
@@ -4180,13 +4180,13 @@ var
    kwargs : TPyDict;
    py     : TPythonObject;
 begin
-  pyargs := TNumPy.ToTuple([scalar]);
+  pyargs := TDeNumPy.ToTuple([scalar]);
   kwargs := TPyDict.Create;
-  if (dtype<>nil) then kwargs['dtype'] := TNumPy.ToPython(dtype);
+  if (dtype<>nil) then kwargs['dtype'] := TDeNumPy.ToPython(dtype);
 
   py := FhModuleNumPy.InvokeMethod('asarray', pyargs, kwargs);
 
-  Result := TNumPy.ToCsharp<TNDarray>(py);
+  Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 class function TNumPyArray.asscalar<T>(a: TNDarray): T;
@@ -4195,7 +4195,7 @@ var
 begin
     py := FhModuleNumPy.InvokeMethod('asscalar', [a]);
 
-    Result := TNumPy.ToCsharp<T>(py);
+    Result := TDeNumPy.ToCsharp<T>(py);
 
 end;
 (*********************************** //END //np.array.cs ****************)
@@ -4218,7 +4218,7 @@ begin
     kwargs := TPyDict.Create;
 
     py := random.InvokeMethod('rand', pyargs, kwargs);
-    Result :=  TNumPy.ToCsharp<TNDarray>(py);
+    Result :=  TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 Function  TNumPyArray.randn(shape: TArray<Integer>):TNDarray;
@@ -4235,7 +4235,7 @@ begin
     kwargs := TPyDict.Create;
 
     py := random.InvokeMethod('randn', pyargs, kwargs);
-    Result :=  TNumPy.ToCsharp<TNDarray>(py);
+    Result :=  TDeNumPy.ToCsharp<TNDarray>(py);
 
 end;
 (*********************************** //END //np.random.cs *************)
@@ -4251,17 +4251,17 @@ var
   kwargs : TPyDict;
   py     : TPythonObject;
 begin
-   pyargs := TNumPy.ToTuple([x]);
+   pyargs := TDeNumPy.ToTuple([x]);
    kwargs := TPyDict.Create;
 
-   if (ord <> nil)      then kwargs['ord'] := TNumPy.ToPython(ord^);
-   if (axis <> nil)     then kwargs['axis']  := TNumPy.ToPython( TValue.FromArray<Integer>(axis));
-   if (keepdims <> nil) then kwargs['keepdims'] := TNumPy.ToPython(keepdims^);
+   if (ord <> nil)      then kwargs['ord'] := TDeNumPy.ToPython(ord^);
+   if (axis <> nil)     then kwargs['axis']  := TDeNumPy.ToPython( TValue.FromArray<Integer>(axis));
+   if (keepdims <> nil) then kwargs['keepdims'] := TDeNumPy.ToPython(keepdims^);
 
    linalg := FhModuleNumPy.GetAttr('linalg');
    py := linalg.InvokeMethod('norm', pyargs, kwargs);
 
-   Result := TNumPy.ToCsharp<TNDarray>(py);
+   Result := TDeNumPy.ToCsharp<TNDarray>(py);
 end;
 
 function TNumPyArray.norm(x: TNDarray; ord: PInteger = nil): Double;
@@ -4271,15 +4271,15 @@ var
   kwargs : TPyDict;
   py     : TPythonObject;
 begin
-   pyargs := TNumPy.ToTuple([x]);
+   pyargs := TDeNumPy.ToTuple([x]);
    kwargs := TPyDict.Create;
 
-   if (ord <> nil)      then kwargs['ord'] := TNumPy.ToPython(ord^);
+   if (ord <> nil)      then kwargs['ord'] := TDeNumPy.ToPython(ord^);
 
    linalg := FhModuleNumPy.GetAttr('linalg');
    py := linalg.InvokeMethod('norm', pyargs, kwargs);
 
-   Result := TNumPy.ToCsharp<Double>(py);
+   Result := TDeNumPy.ToCsharp<Double>(py);
 
 end;
 
@@ -4290,15 +4290,15 @@ var
   kwargs : TPyDict;
   py     : TPythonObject;
 begin
-   pyargs := TNumPy.ToTuple([x]);
+   pyargs := TDeNumPy.ToTuple([x]);
    kwargs := TPyDict.Create;
 
-   if (ord <> nil)      then kwargs['ord'] := TNumPy.ToPython(ord);
+   if (ord <> nil)      then kwargs['ord'] := TDeNumPy.ToPython(ord);
 
    linalg := FhModuleNumPy.GetAttr('linalg');
    py := linalg.InvokeMethod('norm', pyargs, kwargs);
 
-   Result := TNumPy.ToCsharp<Double>(py);
+   Result := TDeNumPy.ToCsharp<Double>(py);
 
 end;
 
@@ -4309,7 +4309,7 @@ var
   kwargs : TPyDict;
   py     : TPythonObject;
 begin
-   pyargs := TNumPy.ToTuple([x]);
+   pyargs := TDeNumPy.ToTuple([x]);
    kwargs := TPyDict.Create;
 
    if  (ord = Constants.inf)  then kwargs['ord'] := ToPython(inf)
@@ -4318,7 +4318,7 @@ begin
    linalg := FhModuleNumPy.GetAttr('linalg');
    py := linalg.InvokeMethod('norm', pyargs, kwargs);
 
-   Result := TNumPy.ToCsharp<Double>(py);
+   Result := TDeNumPy.ToCsharp<Double>(py);
 
 end;
 
@@ -4335,7 +4335,7 @@ var
    py     : TPythonObject;
    res    : TArray<TPythonObject> ;
 begin
-    pyargs := TNumPy.ToTuple([start,stop]);
+    pyargs := TDeNumPy.ToTuple([start,stop]);
     kwargs := TPyDict.Create;
 
     if (num <> 50)        then kwargs['num']      := ToPython(num);
@@ -4348,8 +4348,8 @@ begin
 
     res := py.AsArrayofPyObj;
 
-    step := TNumPy.ToCsharp<Double>(res[0]);
-    Result := TNumPy.ToCsharp<TNDarray>(res[1]);
+    step := TDeNumPy.ToCsharp<Double>(res[0]);
+    Result := TDeNumPy.ToCsharp<TNDarray>(res[1]);
 end;
 
 function TNumPyArray.linspace(start, stop: Double; var step: Double; num:Integer = 50; endpoint:Boolean = true; dtype : TDtype= nil; axis: Integer = 0):TNDarray;
@@ -4359,7 +4359,7 @@ var
    py     : TPythonObject;
    res    : TArray<TPythonObject> ;
 begin
-    pyargs := TNumPy.ToTuple([start,stop]);
+    pyargs := TDeNumPy.ToTuple([start,stop]);
     kwargs := TPyDict.Create;
 
     if (num <> 50)        then kwargs['num']      := ToPython(num);
@@ -4372,8 +4372,8 @@ begin
 
     res := py.AsArrayofPyObj;
 
-    step := TNumPy.ToCsharp<Double>(res[0]);
-    Result := TNumPy.ToCsharp<TNDarray>(res[1]);
+    step := TDeNumPy.ToCsharp<Double>(res[0]);
+    Result := TDeNumPy.ToCsharp<TNDarray>(res[1]);
 end;
 
 (*********************************** //END //np.linspace.cs *************)
@@ -4388,12 +4388,12 @@ var
    py     : TPythonObject;
    res    : TArray<TPythonObject> ;
 begin
-    pyargs := TNumPy.ToTuple([a, TValue.FromShape(new_shape)]);
+    pyargs := TDeNumPy.ToTuple([a, TValue.FromShape(new_shape)]);
     kwargs := TPyDict.Create;
 
     py := FhModuleNumPy.InvokeMethod('resize', pyargs, kwargs);
 
-    Result := TNumPy.ToCsharp<TNDarray>(py);
+    Result := TDeNumPy.ToCsharp<TNDarray>(py);
 
 end;
 
